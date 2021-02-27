@@ -103,20 +103,19 @@ int main(void) {
     /*struct nk_font *cousine = nk_font_atlas_add_from_file(atlas,
      * "../../../extra_font/Cousine-Regular.ttf", 13, 0);*/
 #if defined(NUKEFONT) && defined(FONT_HEIGHT)
-    struct nk_font *nukefont = nk_font_atlas_add_from_file(atlas, NUKEFONT,
-                                                           FONT_HEIGHT, 0);
+    struct nk_font *nukefont =
+        nk_font_atlas_add_from_file(atlas, NUKEFONT, FONT_HEIGHT, 0);
 #endif
     nk_glfw3_font_stash_end(&glfw);
-  /*nk_style_load_all_cursors(ctx, atlas->cursors);*/
+    /*nk_style_load_all_cursors(ctx, atlas->cursors);*/
 #if defined(NUKEFONT)
     nk_style_set_font(ctx, &nukefont->handle);
 #endif
   }
 
-
 #ifdef INCLUDE_STYLE
- set_style(ctx, THEME_WHITE);
-set_style(ctx, THEME_RED);
+  set_style(ctx, THEME_WHITE);
+  set_style(ctx, THEME_RED);
 /*set_style(ctx, THEME_BLUE);*/
 /*set_style(ctx, THEME_DARK);*/
 #endif
@@ -126,7 +125,7 @@ set_style(ctx, THEME_RED);
     /* Input */
     // glfwPollEvents();
     glfwWaitEventsTimeout(3.0);
-    fprintf(stdout, "Event or time out? %5.3f seconds\n",  glfwGetTime());
+    fprintf(stdout, "Event or time out? %5.3f seconds\n", glfwGetTime());
     nk_glfw3_new_frame(&glfw);
 
     /* GUI */
