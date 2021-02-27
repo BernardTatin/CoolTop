@@ -1,3 +1,9 @@
+# idea files
+.idea
+
+# exe
+Nuklear-samplecode/bin/
+
 # Prerequisites
 *.d
 

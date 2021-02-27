@@ -1,11 +1,12 @@
 # Install
-BIN = demo
+BIN = bin/demo
 
+NUKEDIR := ${HOME}/git/Nuklear
 # Flags
-CFLAGS += -std=c99 -pedantic -O2
+CFLAGS += -std=c99 -pedantic -O2 -I$(NUKEDIR) -Wall
 
-SRC = main.c
-OBJ = $(SRC:.c=.o)
+SRC = main.c overview.c style.c calculator.c node_editor.c
+OBJS = $(SRC:.c=.o)
 
 ifeq ($(OS),Windows_NT)
 BIN := $(BIN).exe
@@ -23,8 +24,11 @@ endif
 all: $(BIN)
 
 clean:
-	rm -f bin/$(BIN) $(OBJS)
+	rm -f $(BIN) $(OBJS)
 
-$(BIN):
+%.o:%.c common.h
+	$(CC) -c $< $(CFLAGS) -o $@
+
+$(BIN): $(OBJS)
 	@mkdir -p bin
-	$(CC) $(SRC) $(CFLAGS) -o bin/$(BIN) $(LIBS)
+	$(CC) $(OBJS) -o $@ $(LIBS)
