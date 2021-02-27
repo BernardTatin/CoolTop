@@ -1,29 +1,8 @@
 /* nuklear - 1.32.0 - public domain */
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdarg.h>
-#include <string.h>
-#include <math.h>
-#include <assert.h>
-#include <limits.h>
-#include <time.h>
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
-#define NK_INCLUDE_FIXED_TYPES
-#define NK_INCLUDE_STANDARD_IO
-#define NK_INCLUDE_STANDARD_VARARGS
-#define NK_INCLUDE_DEFAULT_ALLOCATOR
-#define NK_INCLUDE_VERTEX_BUFFER_OUTPUT
-#define NK_INCLUDE_FONT_BAKING
-#define NK_INCLUDE_DEFAULT_FONT
 #define NK_IMPLEMENTATION
 #define NK_GLFW_GL3_IMPLEMENTATION
-#define NK_KEYSTATE_BASED_INPUT
-#include "nuklear.h"
-#include "nuklear_glfw_gl3.h"
+#include "common.h"
 
 #define WINDOW_WIDTH 1200
 #define WINDOW_HEIGHT 800
@@ -39,7 +18,7 @@
 /* This are some code examples to provide a small overview of what can be
  * done with this library. To try out an example uncomment the defines */
 /*#define INCLUDE_ALL */
-/*#define INCLUDE_STYLE */
+#define INCLUDE_STYLE
 /*#define INCLUDE_CALCULATOR */
 #define INCLUDE_OVERVIEW
 /*#define INCLUDE_NODE_EDITOR */
@@ -52,7 +31,9 @@
 #endif
 
 #ifdef INCLUDE_STYLE
-  #include "../style.c"
+  // #include "../style.c"
+  void set_style(struct nk_context *ctx, enum theme theme);
+
 #endif
 #ifdef INCLUDE_CALCULATOR
   #include "../calculator.c"
