@@ -22,7 +22,7 @@
 #define NK_IMPLEMENTATION
 #define NK_GLFW_GL3_IMPLEMENTATION
 #define NK_KEYSTATE_BASED_INPUT
-#include "../../nuklear.h"
+#include "nuklear.h"
 #include "nuklear_glfw_gl3.h"
 
 #define WINDOW_WIDTH 1200
@@ -58,7 +58,7 @@
   #include "../calculator.c"
 #endif
 #ifdef INCLUDE_OVERVIEW
-  #include "../overview.c"
+  #include "overview.c"
 #endif
 #ifdef INCLUDE_NODE_EDITOR
   #include "../node_editor.c"
