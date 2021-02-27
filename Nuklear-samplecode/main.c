@@ -102,13 +102,21 @@ int main(void) {
      * "../../../extra_font/ProggyTiny.ttf", 10, 0);*/
     /*struct nk_font *cousine = nk_font_atlas_add_from_file(atlas,
      * "../../../extra_font/Cousine-Regular.ttf", 13, 0);*/
+#if defined(NUKEFONT) && defined(FONT_HEIGHT)
+    struct nk_font *nukefont = nk_font_atlas_add_from_file(atlas, NUKEFONT,
+                                                           FONT_HEIGHT, 0);
+#endif
     nk_glfw3_font_stash_end(&glfw);
   /*nk_style_load_all_cursors(ctx, atlas->cursors);*/
-    /*nk_style_set_font(ctx, &droid->handle);*/}
+#if defined(NUKEFONT)
+    nk_style_set_font(ctx, &nukefont->handle);
+#endif
+  }
+
 
 #ifdef INCLUDE_STYLE
-/*set_style(ctx, THEME_WHITE);*/
-/*set_style(ctx, THEME_RED);*/
+ set_style(ctx, THEME_WHITE);
+set_style(ctx, THEME_RED);
 /*set_style(ctx, THEME_BLUE);*/
 /*set_style(ctx, THEME_DARK);*/
 #endif
@@ -116,7 +124,9 @@ int main(void) {
   bg.r = 0.10f, bg.g = 0.18f, bg.b = 0.24f, bg.a = 1.0f;
   while (!glfwWindowShouldClose(win)) {
     /* Input */
-    glfwPollEvents();
+    // glfwPollEvents();
+    glfwWaitEventsTimeout(3.0);
+    fprintf(stdout, "Event or time out? %5.3f seconds\n",  glfwGetTime());
     nk_glfw3_new_frame(&glfw);
 
     /* GUI */
