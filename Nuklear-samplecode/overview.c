@@ -1,5 +1,7 @@
 #include "common.h"
 
+int ready_to_exit = nk_false;
+
 int overview(struct nk_context *ctx) {
     /* window flags */
     static int show_menu = nk_true;
@@ -48,8 +50,10 @@ int overview(struct nk_context *ctx) {
                 nk_layout_row_dynamic(ctx, 25, 1);
                 if (nk_menu_item_label(ctx, "Hide", NK_TEXT_LEFT))
                     show_menu = nk_false;
-                if (nk_menu_item_label(ctx, "About", NK_TEXT_LEFT))
-                    show_app_about = nk_true;
+              if (nk_menu_item_label(ctx, "About", NK_TEXT_LEFT))
+                show_app_about = nk_true;
+              if (nk_menu_item_label(ctx, "Quit", NK_TEXT_LEFT))
+                ready_to_exit = nk_true;
                 nk_progress(ctx, &prog, 100, NK_MODIFIABLE);
                 nk_slider_int(ctx, 0, &slider, 16, 1);
                 nk_checkbox_label(ctx, "check", &check);
