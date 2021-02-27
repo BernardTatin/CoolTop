@@ -19,7 +19,7 @@
  * done with this library. To try out an example uncomment the defines */
 /*#define INCLUDE_ALL */
 #define INCLUDE_STYLE
-/*#define INCLUDE_CALCULATOR */
+#define INCLUDE_CALCULATOR
 #define INCLUDE_OVERVIEW
 /*#define INCLUDE_NODE_EDITOR */
 
@@ -36,7 +36,8 @@
 
 #endif
 #ifdef INCLUDE_CALCULATOR
-  #include "../calculator.c"
+  // #include "../calculator.c"
+  void calculator(struct nk_context *ctx);
 #endif
 #ifdef INCLUDE_OVERVIEW
   // #include "overview.c"

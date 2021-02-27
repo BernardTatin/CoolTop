@@ -5,7 +5,7 @@ NUKEDIR := ${HOME}/git/Nuklear
 # Flags
 CFLAGS += -std=c99 -pedantic -O2 -I$(NUKEDIR) -Wall
 
-SRC = main.c overview.c style.c
+SRC = main.c overview.c style.c calculator.c
 OBJS = $(SRC:.c=.o)
 
 ifeq ($(OS),Windows_NT)
