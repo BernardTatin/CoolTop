@@ -21,7 +21,7 @@
 #define INCLUDE_STYLE
 #define INCLUDE_CALCULATOR
 #define INCLUDE_OVERVIEW
-/*#define INCLUDE_NODE_EDITOR */
+#define INCLUDE_NODE_EDITOR
 
 #ifdef INCLUDE_ALL
   #define INCLUDE_STYLE
@@ -44,7 +44,8 @@
   int overview(struct nk_context *ctx);
 #endif
 #ifdef INCLUDE_NODE_EDITOR
-  #include "../node_editor.c"
+  // #include "../node_editor.c"
+  int node_editor(struct nk_context *ctx);
 #endif
 
 /* ===============================================================

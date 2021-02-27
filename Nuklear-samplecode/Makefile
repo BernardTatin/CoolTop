@@ -5,7 +5,7 @@ NUKEDIR := ${HOME}/git/Nuklear
 # Flags
 CFLAGS += -std=c99 -pedantic -O2 -I$(NUKEDIR) -Wall
 
-SRC = main.c overview.c style.c calculator.c
+SRC = main.c overview.c style.c calculator.c node_editor.c
 OBJS = $(SRC:.c=.o)
 
 ifeq ($(OS),Windows_NT)
@@ -26,7 +26,7 @@ all: $(BIN)
 clean:
 	rm -f $(BIN) $(OBJS)
 
-%.o:%.c
+%.o:%.c common.h
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(BIN): $(OBJS)
