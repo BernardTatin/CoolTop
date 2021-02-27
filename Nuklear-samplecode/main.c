@@ -58,7 +58,8 @@
   #include "../calculator.c"
 #endif
 #ifdef INCLUDE_OVERVIEW
-  #include "overview.c"
+  // #include "overview.c"
+  int overview(struct nk_context *ctx);
 #endif
 #ifdef INCLUDE_NODE_EDITOR
   #include "../node_editor.c"
