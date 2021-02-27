@@ -29,4 +29,11 @@
 #include "nuklear.h"
 #include "nuklear_glfw_gl3.h"
 
+#ifndef NK_IMPLEMENTATION
+#ifndef NK_ASSERT
+#include <assert.h>
+#define NK_ASSERT(expr) assert(expr)
+#endif
+#endif
+
 #endif // COOLTOP_COMMON_H
