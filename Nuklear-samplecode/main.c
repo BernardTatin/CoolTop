@@ -121,7 +121,7 @@ int main(void) {
 #endif
 
   bg.r = 0.10f, bg.g = 0.18f, bg.b = 0.24f, bg.a = 1.0f;
-  while (!glfwWindowShouldClose(win)) {
+  while (!glfwWindowShouldClose(win) && !ready_to_exit) {
     /* Input */
     // glfwPollEvents();
     glfwWaitEventsTimeout(3.0);

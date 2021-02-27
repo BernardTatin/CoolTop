@@ -38,4 +38,6 @@
 
 enum theme {THEME_BLACK, THEME_WHITE, THEME_RED, THEME_BLUE, THEME_DARK};
 
+extern int ready_to_exit;
+
 #endif // COOLTOP_COMMON_H
