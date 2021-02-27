@@ -1,8 +1,9 @@
 # Install
 BIN = demo
 
+NUKEDIR := ${HOME}/git/Nuklear
 # Flags
-CFLAGS += -std=c99 -pedantic -O2
+CFLAGS += -std=c99 -pedantic -O2 -I$(NUKEDIR)
 
 SRC = main.c
 OBJ = $(SRC:.c=.o)
