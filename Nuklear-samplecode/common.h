@@ -39,5 +39,6 @@
 enum theme {THEME_BLACK, THEME_WHITE, THEME_RED, THEME_BLUE, THEME_DARK};
 
 extern int ready_to_exit;
-
+extern int show_app_about;
+void show_about_box(struct nk_context *ctx);
 #endif // COOLTOP_COMMON_H
