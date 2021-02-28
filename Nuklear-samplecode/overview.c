@@ -1,8 +1,5 @@
 #include "common.h"
 
-int ready_to_exit = nk_false;
-int show_app_about = nk_false;
-
 void show_about_box(struct nk_context *ctx) {
   /* about popup */
   static struct nk_rect s = {20, 100, 300, 190};

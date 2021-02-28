@@ -8,7 +8,7 @@ FONT_HEIGHT ?= 16
 NUKEFONT = $(NUKEDIR)/extra_font/$(FONT_NAME)
 # Flags
 CDEFINES := -D'NUKEFONT="$(NUKEFONT)"' -DFONT_HEIGHT=$(FONT_HEIGHT)
-CFLAGS += -std=c99 -Wall -pedantic -O2 -I$(NUKEDIR) $(CDEFINES)
+CFLAGS += -std=c99 -Wall -pedantic -O2 -I$(NUKEDIR) -I../include $(CDEFINES)
 
 
 ifeq ($(OS),Windows_NT)
@@ -35,7 +35,7 @@ run: all
 $(DBIN):
 	@mkdir -p $(DBIN)
 
-$(DBIN)/%.o:%.c common.h
+$(DBIN)/%.o:%.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(BIN): $(OBJS)
