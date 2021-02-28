@@ -10,8 +10,7 @@
 #define MAX_VERTEX_BUFFER 512 * 1024
 #define MAX_ELEMENT_BUFFER 128 * 1024
 
-int ready_to_exit = nk_false;
-int show_app_about = nk_false;
+#include "environment.h"
 
 /* ===============================================================
  *
