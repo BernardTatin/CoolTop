@@ -1,6 +1,22 @@
 #include "common.h"
 
 int ready_to_exit = nk_false;
+int show_app_about = nk_false;
+
+void show_about_box(struct nk_context *ctx) {
+  /* about popup */
+  static struct nk_rect s = {20, 100, 300, 190};
+  if (nk_popup_begin(ctx, NK_POPUP_STATIC, "About", NK_WINDOW_CLOSABLE,
+                     s)) {
+    nk_layout_row_dynamic(ctx, 20, 1);
+    nk_label(ctx, "Nuklear", NK_TEXT_LEFT);
+    nk_label(ctx, "By Micha Mettke", NK_TEXT_LEFT);
+    nk_label(ctx, "nuklear is licensed under the public domain License.",
+             NK_TEXT_LEFT);
+    nk_popup_end(ctx);
+  } else
+    show_app_about = nk_false;
+}
 
 int overview(struct nk_context *ctx) {
   /* window flags */
@@ -16,7 +32,6 @@ int overview(struct nk_context *ctx) {
 
   /* popups */
   static enum nk_style_header_align header_align = NK_HEADER_RIGHT;
-  static int show_app_about = nk_false;
 
   /* window flags */
   window_flags = 0;
@@ -47,19 +62,19 @@ int overview(struct nk_context *ctx) {
       nk_layout_row_begin(ctx, NK_STATIC, 25, 5);
       nk_layout_row_push(ctx, 45);
       if (nk_menu_begin_label(ctx, "MENU", NK_TEXT_LEFT, nk_vec2(120, 200))) {
-        static size_t prog = 40;
-        static int slider = 10;
-        static int check = nk_true;
+//        static size_t prog = 40;
+//        static int slider = 10;
+//        static int check = nk_true;
         nk_layout_row_dynamic(ctx, 25, 1);
         if (nk_menu_item_label(ctx, "Hide", NK_TEXT_LEFT))
           show_menu = nk_false;
         if (nk_menu_item_label(ctx, "About", NK_TEXT_LEFT))
           show_app_about = nk_true;
-        if (nk_menu_item_label(ctx, "Quit", NK_TEXT_LEFT))
+        if (nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT))
           ready_to_exit = nk_true;
-        nk_progress(ctx, &prog, 100, NK_MODIFIABLE);
-        nk_slider_int(ctx, 0, &slider, 16, 1);
-        nk_checkbox_label(ctx, "check", &check);
+//        nk_progress(ctx, &prog, 100, NK_MODIFIABLE);
+//        nk_slider_int(ctx, 0, &slider, 16, 1);
+//        nk_checkbox_label(ctx, "check", &check);
         nk_menu_end(ctx);
       }
       /* menu #2 */
@@ -83,7 +98,8 @@ int overview(struct nk_context *ctx) {
           nk_menu_item_label(ctx, "Open", NK_TEXT_LEFT);
           nk_menu_item_label(ctx, "Save", NK_TEXT_LEFT);
           nk_menu_item_label(ctx, "Close", NK_TEXT_LEFT);
-          nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT);
+          if (nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT))
+            ready_to_exit = nk_true;
           nk_tree_pop(ctx);
         } else
           menu_state = (menu_state == MENU_FILE) ? MENU_NONE : menu_state;
@@ -102,7 +118,8 @@ int overview(struct nk_context *ctx) {
         state = (menu_state == MENU_VIEW) ? NK_MAXIMIZED : NK_MINIMIZED;
         if (nk_tree_state_push(ctx, NK_TREE_TAB, "VIEW", &state)) {
           menu_state = MENU_VIEW;
-          nk_menu_item_label(ctx, "About", NK_TEXT_LEFT);
+          if (nk_menu_item_label(ctx, "About", NK_TEXT_LEFT))
+            show_app_about = nk_true;
           nk_menu_item_label(ctx, "Options", NK_TEXT_LEFT);
           nk_menu_item_label(ctx, "Customize", NK_TEXT_LEFT);
           nk_tree_pop(ctx);
@@ -134,18 +151,7 @@ int overview(struct nk_context *ctx) {
     }
 
     if (show_app_about) {
-      /* about popup */
-      static struct nk_rect s = {20, 100, 300, 190};
-      if (nk_popup_begin(ctx, NK_POPUP_STATIC, "About", NK_WINDOW_CLOSABLE,
-                         s)) {
-        nk_layout_row_dynamic(ctx, 20, 1);
-        nk_label(ctx, "Nuklear", NK_TEXT_LEFT);
-        nk_label(ctx, "By Micha Mettke", NK_TEXT_LEFT);
-        nk_label(ctx, "nuklear is licensed under the public domain License.",
-                 NK_TEXT_LEFT);
-        nk_popup_end(ctx);
-      } else
-        show_app_about = nk_false;
+      show_about_box(ctx);
     }
 
     /* window flags */
@@ -1042,7 +1048,7 @@ int overview(struct nk_context *ctx) {
       }
       if (nk_tree_push(ctx, NK_TREE_NODE, "Notebook", NK_MINIMIZED)) {
         static int current_tab = 0;
-        struct nk_rect bounds;
+//        struct nk_rect bounds;
         float step = (2 * 3.141592654f) / 32;
         enum chart_type { CHART_LINE, CHART_HISTO, CHART_MIXED };
         const char *names[] = {"Lines", "Columns", "Mixed"};
@@ -1074,6 +1080,7 @@ int overview(struct nk_context *ctx) {
         /* Body */
         nk_layout_row_dynamic(ctx, 140, 1);
         if (nk_group_begin(ctx, "Notebook", NK_WINDOW_BORDER)) {
+          static struct nk_rect bounds;
           nk_style_pop_vec2(ctx);
           switch (current_tab) {
           default:
