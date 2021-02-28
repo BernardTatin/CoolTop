@@ -1,5 +1,7 @@
 /* nuklear - 1.32.0 - public domain */
 
+#include <sys/utsname.h>
+
 #define NK_IMPLEMENTATION
 #define NK_GLFW_GL3_IMPLEMENTATION
 #include "common.h"
@@ -11,6 +13,30 @@
 #define MAX_ELEMENT_BUFFER 128 * 1024
 
 #include "environment.h"
+
+/* =============================================================== */
+void show_about_box(struct nk_context *ctx) {
+  /* about popup */
+  static struct nk_rect s = {20, 100, 300, 190};
+  if (nk_popup_begin(ctx, NK_POPUP_STATIC, "About", NK_WINDOW_CLOSABLE, s)) {
+    nk_layout_row_dynamic(ctx, 20, 1);
+    nk_label(ctx, "CoolTop", NK_TEXT_CENTERED);
+    nk_label(ctx, "By Bernard Tatin", NK_TEXT_CENTERED);
+    nk_label(ctx, "With love", NK_TEXT_CENTERED);
+    nk_label(ctx,
+             "and with nuklear",
+             NK_TEXT_CENTERED);
+    nk_label(ctx,
+             "which is licensed under",
+             NK_TEXT_CENTERED);
+    nk_label(ctx,
+             "the public domain License.",
+             NK_TEXT_CENTERED);
+    nk_popup_end(ctx);
+  } else {
+    global_environment.show_app_about = nk_false;
+  }
+}
 
 /* ===============================================================
  *
@@ -42,7 +68,7 @@ int main(void) {
 #ifdef __APPLE__
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-  win = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Demo", NULL, NULL);
+  win = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "CoolTop", NULL, NULL);
   glfwMakeContextCurrent(win);
   glfwGetWindowSize(win, &width, &height);
 
@@ -75,42 +101,39 @@ int main(void) {
     /* Input */
     // glfwPollEvents();
     glfwWaitEventsTimeout(3.0);
-    fprintf(stdout, "Event or time out? %5.3f seconds\n", glfwGetTime());
     nk_glfw3_new_frame(&glfw);
 
     /* GUI */
-    if (nk_begin(ctx, "Demo", nk_rect(50, 50, 230, 250),
+    if (nk_begin(ctx, "CoolTop: unames", nk_rect(50, 50, 230, 250),
                  NK_WINDOW_BORDER | NK_WINDOW_MOVABLE | NK_WINDOW_SCALABLE |
                      NK_WINDOW_MINIMIZABLE | NK_WINDOW_TITLE)) {
-      enum { EASY, HARD };
-      static int op = EASY;
-      static int property = 20;
-      nk_layout_row_static(ctx, 30, 80, 1);
-      if (nk_button_label(ctx, "button"))
-        fprintf(stdout, "button pressed\n");
+      static struct utsname unames;
+      if (uname(&unames)) {
+        memset(&unames, 0, sizeof(struct utsname));
+        strcpy(unames.sysname, "ERROR!");
+      }
+      nk_menubar_begin(ctx);
 
-      nk_layout_row_dynamic(ctx, 30, 2);
-      if (nk_option_label(ctx, "easy", op == EASY))
-        op = EASY;
-      if (nk_option_label(ctx, "hard", op == HARD))
-        op = HARD;
-
-      nk_layout_row_dynamic(ctx, 25, 1);
-      nk_property_int(ctx, "Compression:", 0, &property, 100, 10, 1);
-
-      nk_layout_row_dynamic(ctx, 20, 1);
-      nk_label(ctx, "background:", NK_TEXT_LEFT);
-      nk_layout_row_dynamic(ctx, 25, 1);
-      if (nk_combo_begin_color(ctx, nk_rgb_cf(bg),
-                               nk_vec2(nk_widget_width(ctx), 400))) {
-        nk_layout_row_dynamic(ctx, 120, 1);
-        bg = nk_color_picker(ctx, bg, NK_RGBA);
+      /* menu #1 */
+      nk_layout_row_begin(ctx, NK_STATIC, 25, 5);
+      nk_layout_row_push(ctx, 45);
+      if (nk_menu_begin_label(ctx, "MENU", NK_TEXT_LEFT, nk_vec2(120, 200))) {
         nk_layout_row_dynamic(ctx, 25, 1);
-        bg.r = nk_propertyf(ctx, "#R:", 0, bg.r, 1.0f, 0.01f, 0.005f);
-        bg.g = nk_propertyf(ctx, "#G:", 0, bg.g, 1.0f, 0.01f, 0.005f);
-        bg.b = nk_propertyf(ctx, "#B:", 0, bg.b, 1.0f, 0.01f, 0.005f);
-        bg.a = nk_propertyf(ctx, "#A:", 0, bg.a, 1.0f, 0.01f, 0.005f);
-        nk_combo_end(ctx);
+        if (nk_menu_item_label(ctx, "About", NK_TEXT_LEFT))
+          global_environment.show_app_about = nk_true;
+        if (nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT))
+          global_environment.ready_to_exit = nk_true;
+        nk_menu_end(ctx);
+      }
+      nk_layout_row_dynamic(ctx, 20, 1);
+      nk_label(ctx, unames.sysname, NK_TEXT_LEFT);
+      nk_label(ctx, unames.nodename, NK_TEXT_LEFT);
+      nk_label(ctx, unames.release, NK_TEXT_LEFT);
+      nk_label(ctx, unames.version, NK_TEXT_LEFT);
+      nk_label(ctx, unames.machine, NK_TEXT_LEFT);
+
+      if (global_environment.show_app_about) {
+        show_about_box(ctx);
       }
     }
     nk_end(ctx);
