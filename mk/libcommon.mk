@@ -25,4 +25,7 @@ $(LIB_FILE): $(LIB_OBJS)
 $(LIB_DIR)/%.o: $(COOL_HOME)/src/%.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
-.PHONY: lib
+cleanlib:
+	rm -fv $(LIB_FILE) $(LIB_OBJS)
+
+.PHONY: lib cleanlib
