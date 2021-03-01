@@ -7,10 +7,7 @@ COOL_HOME := $(shell dirname $(here))
 
 DBIN := bin
 BIN := $(DBIN)/$(BINNAME)
-LBIN := lbin
-LSRCS :=  $(COOL_HOME)/src/environment.c
 OBJS := $(addprefix $(DBIN)/, $(notdir $(SRCS:.c=.o)))
-OBJS +=  $(addprefix $(LBIN)/, $(notdir $(LSRCS:.c=.o)))
 
 NUKEDIR ?= ${HOME}/git/Nuklear
 FONT_NAME ?= Karla-Regular.ttf
@@ -30,11 +27,13 @@ else
 	ifeq ($(UNAME_S),Darwin)
 		LIBS := $(GLFW3) -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -lm -lGLEW -L/usr/local/lib
 	else
-		LIBS := $(GLFW3) -lGL -lm -lGLU -lGLEW
+		LIBS := $(GLFW3) -lGL -lGLU -lGLEW
 	endif
 endif
 
-all: $(DBIN) $(LBIN) $(BIN)
+include libcommon.mk
+
+all: lib $(DBIN) $(BIN)
 
 clean:
 	rm -f $(BIN) $(OBJS)
@@ -42,22 +41,13 @@ clean:
 run: all
 	./$(BIN)
 
-$(LBIN):
-	@echo "OBJS: $(OBJS)"
-	@echo "COOL_HOME $(COOL_HOME)"
-	$(shell ls -l $(LSRCS))
-	@mkdir -p $(LBIN)
-
 $(DBIN):
 	@mkdir -p $(DBIN)
-
-$(LBIN)/%.o: $(COOL_HOME)/src/%.c
-	$(CC) -c $< $(CFLAGS) -o $@
 
 $(DBIN)/%.o: %.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(BIN): $(OBJS)
-	$(CC) $(OBJS) -o $@ $(LIBS)
+	$(CC) $(OBJS) -o $@ $(LIBS) -lm
 
 .PHONY: all clean run
