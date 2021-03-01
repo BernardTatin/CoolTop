@@ -1,6 +1,7 @@
 /* nuklear - 1.32.0 - public domain */
 
 #include <sys/utsname.h>
+#include <sys/sysinfo.h>
 
 #include "common.h"
 
@@ -92,7 +93,9 @@ int main(void) {
   while (!glfwWindowShouldClose(win) && !global_environment.ready_to_exit) {
     /* Input */
     // glfwPollEvents();
+    static struct sysinfo info;
     static struct utsname unames;
+    static char str_buffer[64];
     static float last_t = 0.0;
     float current_time;
 
@@ -103,12 +106,15 @@ int main(void) {
         memset(&unames, 0, sizeof(struct utsname));
         strcpy(unames.sysname, "ERROR!");
       }
+      if (sysinfo(&info) < 0) {
+        memset(&info, 0, sizeof (struct sysinfo));
+      }
       last_t = glfwGetTime();
     }
     nk_glfw3_new_frame(&glfw);
 
     /* GUI */
-    if (nk_begin(ctx, "CoolTop: unames", nk_rect(50, 50, 230, 250),
+    if (nk_begin(ctx, "CoolTop: unames", nk_rect(5, 5, 430, 250),
                  NK_WINDOW_BORDER | NK_WINDOW_MOVABLE | NK_WINDOW_SCALABLE |
                      NK_WINDOW_MINIMIZABLE | NK_WINDOW_TITLE)) {
       nk_menubar_begin(ctx);
@@ -130,6 +136,10 @@ int main(void) {
       nk_label(ctx, unames.release, NK_TEXT_LEFT);
       nk_label(ctx, unames.version, NK_TEXT_LEFT);
       nk_label(ctx, unames.machine, NK_TEXT_LEFT);
+      sprintf(str_buffer, "RAM: free/total %ul/%ul", info.freeram/(1024*1024),
+                                                                     info
+                                                                      .totalram/(1024*1024));
+      nk_label(ctx, str_buffer, NK_TEXT_RIGHT);
 
       if (global_environment.show_app_about) {
         show_about_box(ctx);
