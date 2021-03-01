@@ -9,6 +9,7 @@ typedef struct {
   int init_done;
   int ready_to_exit;
   int show_app_about;
+  float delta_t;
 } environment;
 
 extern environment global_environment;
