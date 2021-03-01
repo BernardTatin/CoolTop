@@ -2,8 +2,6 @@
 
 #include <sys/utsname.h>
 
-#define NK_IMPLEMENTATION
-#define NK_GLFW_GL3_IMPLEMENTATION
 #include "common.h"
 
 #define WINDOW_WIDTH 1200
