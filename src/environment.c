@@ -11,6 +11,7 @@ void init_environment(environment *env) {
   if (!env->init_done) {
     env->ready_to_exit = nk_false;
     env->show_app_about = nk_false;
+    env->delta_t = 1.0;
     env->init_done = nk_true;
   }
 }
