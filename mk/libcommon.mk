@@ -5,24 +5,24 @@
 AR = ar
 ARFLAGS = rcs
 
-LBIN := $(COOL_HOME)/lib
-LSRCS :=  $(COOL_HOME)/src/environment.c $(COOL_HOME)/src/nuklear_glfw_gl3.c
-LOBJS :=  $(addprefix $(LBIN)/, $(notdir $(LSRCS:.c=.o)))
-LIBNAME := common
-LIBFILE := $(LBIN)/lib$(LIBNAME).a
+LIB_DIR := $(COOL_HOME)/lib
+LIB_SOURCES :=  $(COOL_HOME)/src/environment.c $(COOL_HOME)/src/nuklear_glfw_gl3.c
+LIB_OBJS :=  $(addprefix $(LIB_DIR)/, $(notdir $(LIB_SOURCES:.c=.o)))
+LIB_NAME := common
+LIB_FILE := $(LIB_DIR)/lib$(LIB_NAME).a
 
-LIBS += -L$(LBIN) -l$(LIBNAME)
+LIBS += -L$(LIB_DIR) -l$(LIB_NAME)
 
-lib: $(LBIN) $(LIBFILE)
+lib: $(LIB_DIR) $(LIB_FILE)
 
-$(LBIN):
-	@mkdir -p $(LBIN)
+$(LIB_DIR):
+	@mkdir -p $(LIB_DIR)
 
-$(LIBFILE): $(LOBJS)
-	$(AR) $(ARFLAGS) $@ $(LOBJS)
+$(LIB_FILE): $(LIB_OBJS)
+	$(AR) $(ARFLAGS) $@ $(LIB_OBJS)
 
 
-$(LBIN)/%.o: $(COOL_HOME)/src/%.c
+$(LIB_DIR)/%.o: $(COOL_HOME)/src/%.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
 .PHONY: lib
