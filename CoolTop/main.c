@@ -21,15 +21,9 @@ void show_about_box(struct nk_context *ctx) {
     nk_label(ctx, "CoolTop", NK_TEXT_CENTERED);
     nk_label(ctx, "By Bernard Tatin", NK_TEXT_CENTERED);
     nk_label(ctx, "With love", NK_TEXT_CENTERED);
-    nk_label(ctx,
-             "and with nuklear",
-             NK_TEXT_CENTERED);
-    nk_label(ctx,
-             "which is licensed under",
-             NK_TEXT_CENTERED);
-    nk_label(ctx,
-             "the public domain License.",
-             NK_TEXT_CENTERED);
+    nk_label(ctx, "and with nuklear", NK_TEXT_CENTERED);
+    nk_label(ctx, "which is licensed under", NK_TEXT_CENTERED);
+    nk_label(ctx, "the public domain License.", NK_TEXT_CENTERED);
     nk_popup_end(ctx);
   } else {
     global_environment.show_app_about = nk_false;
@@ -38,7 +32,7 @@ void show_about_box(struct nk_context *ctx) {
 
 /* ===============================================================
  *
- *                          DEMO
+ *                          CoolTop
  *
  * ===============================================================*/
 static void error_callback(int e, const char *d) {
@@ -98,18 +92,25 @@ int main(void) {
   while (!glfwWindowShouldClose(win) && !global_environment.ready_to_exit) {
     /* Input */
     // glfwPollEvents();
-    glfwWaitEventsTimeout(3.0);
+    static struct utsname unames;
+    static float last_t = 0.0;
+    float current_time;
+
+    glfwWaitEventsTimeout(global_environment.delta_t);
+    current_time = glfwGetTime();
+    if (current_time - last_t >= global_environment.delta_t) {
+      if (uname(&unames)) {
+        memset(&unames, 0, sizeof(struct utsname));
+        strcpy(unames.sysname, "ERROR!");
+      }
+      last_t = glfwGetTime();
+    }
     nk_glfw3_new_frame(&glfw);
 
     /* GUI */
     if (nk_begin(ctx, "CoolTop: unames", nk_rect(50, 50, 230, 250),
                  NK_WINDOW_BORDER | NK_WINDOW_MOVABLE | NK_WINDOW_SCALABLE |
                      NK_WINDOW_MINIMIZABLE | NK_WINDOW_TITLE)) {
-      static struct utsname unames;
-      if (uname(&unames)) {
-        memset(&unames, 0, sizeof(struct utsname));
-        strcpy(unames.sysname, "ERROR!");
-      }
       nk_menubar_begin(ctx);
 
       /* menu #1 */
