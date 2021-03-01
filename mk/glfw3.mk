@@ -5,9 +5,9 @@
 here = $(shell pwd)
 COOL_HOME := $(shell dirname $(here))
 
-DBIN := bin
-BIN := $(DBIN)/$(BINNAME)
-OBJS := $(addprefix $(DBIN)/, $(notdir $(SRCS:.c=.o)))
+BIN_DIR := bin
+BIN_FILE := $(BIN_DIR)/$(BINNAME)
+BIN_OBJS := $(addprefix $(BIN_DIR)/, $(notdir $(SRCS:.c=.o)))
 
 NUKEDIR ?= ${HOME}/git/Nuklear
 FONT_NAME ?= Karla-Regular.ttf
@@ -15,11 +15,12 @@ FONT_HEIGHT ?= 16
 NUKEFONT := $(NUKEDIR)/extra_font/$(FONT_NAME)
 # Flags
 CDEFINES := -D'NUKEFONT="$(NUKEFONT)"' -DFONT_HEIGHT=$(FONT_HEIGHT)
-CFLAGS += -std=c99 -Wall -pedantic -O2 -I$(NUKEDIR) -I../include $(CDEFINES)
+CINCLUDES := -I$(NUKEDIR) -I../include
+CFLAGS += -std=c99 -Wall -pedantic -O2  $(CDEFINES) $(CINCLUDES)
 
 
 ifeq ($(OS),Windows_NT)
-	BIN := $(BIN).exe
+	BIN_FILE := $(BIN_FILE).exe
 	LIBS := -lglfw3 -lopengl32 -lm -lGLU32 -lGLEW32
 else
 	UNAME_S := $(shell uname -s)
@@ -33,21 +34,21 @@ endif
 
 include libcommon.mk
 
-all: lib $(DBIN) $(BIN)
+all: lib $(BIN_DIR) $(BIN_FILE)
 
 clean:
-	rm -f $(BIN) $(OBJS)
+	rm -f $(BIN_FILE) $(BIN_OBJS)
 
 run: all
-	./$(BIN)
+	./$(BIN_FILE)
 
-$(DBIN):
-	@mkdir -p $(DBIN)
+$(BIN_DIR):
+	@mkdir -p $(BIN_DIR)
 
-$(DBIN)/%.o: %.c
+$(BIN_DIR)/%.o: %.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
-$(BIN): $(OBJS)
-	$(CC) $(OBJS) -o $@ $(LIBS) -lm
+$(BIN_FILE): $(BIN_OBJS)
+	$(CC) $(BIN_OBJS) -o $@ $(LIBS) -lm
 
 .PHONY: all clean run
