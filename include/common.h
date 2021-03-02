@@ -39,4 +39,8 @@
 enum theme {THEME_BLACK, THEME_WHITE, THEME_RED, THEME_BLUE, THEME_DARK};
 
 void show_about_box(struct nk_context *ctx);
+
+#define DBG()   { fprintf(stdout, "%5d %s\n", __LINE__, __FILE__); }
+
+#define MEGA_BYTES    (1024*1024)
 #endif // COOLTOP_COMMON_H

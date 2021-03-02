@@ -1,7 +1,7 @@
 /* nuklear - 1.32.0 - public domain */
 
-#include <sys/utsname.h>
 #include <sys/sysinfo.h>
+#include <sys/utsname.h>
 
 #include "common.h"
 
@@ -11,9 +11,12 @@
 #define MAX_VERTEX_BUFFER 512 * 1024
 #define MAX_ELEMENT_BUFFER 128 * 1024
 
+#include "coltop-tools.h"
 #include "environment.h"
 #include "nuke-tools.h"
 
+struct sysinfo info;
+struct utsname unames;
 /* =============================================================== */
 void show_about_box(struct nk_context *ctx) {
   /* about popup */
@@ -94,9 +97,6 @@ int main(void) {
   while (!glfwWindowShouldClose(win) && !global_environment.ready_to_exit) {
     /* Input */
     // glfwPollEvents();
-    static struct sysinfo info;
-    static struct utsname unames;
-    static char str_buffer[64];
     static float last_t = 0.0;
     float current_time;
 
@@ -108,45 +108,14 @@ int main(void) {
         strcpy(unames.sysname, "ERROR!");
       }
       if (sysinfo(&info) < 0) {
-        memset(&info, 0, sizeof (struct sysinfo));
+        memset(&info, 0, sizeof(struct sysinfo));
       }
       last_t = glfwGetTime();
     }
     nk_glfw3_new_frame(&glfw);
-
     /* GUI */
-    if (nk_begin(ctx, "CoolTop: unames", nk_rect(5, 5, 430, 250),
-                 NK_WINDOW_BORDER | NK_WINDOW_MOVABLE | NK_WINDOW_SCALABLE |
-                     NK_WINDOW_MINIMIZABLE | NK_WINDOW_TITLE)) {
-      nk_menubar_begin(ctx);
-
-      /* menu #1 */
-      nk_layout_row_begin(ctx, NK_STATIC, 25, 5);
-      nk_layout_row_push(ctx, 45);
-      if (nk_menu_begin_label(ctx, "MENU", NK_TEXT_LEFT, nk_vec2(120, 200))) {
-        nk_layout_row_dynamic(ctx, 25, 1);
-        if (nk_menu_item_label(ctx, "About", NK_TEXT_LEFT))
-          global_environment.show_app_about = nk_true;
-        if (nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT))
-          global_environment.ready_to_exit = nk_true;
-        nk_menu_end(ctx);
-      }
-      nk_layout_row_dynamic(ctx, 20, 2);
-      add_2_cols_label(ctx, "System name", unames.sysname, NK_TEXT_LEFT);
-      add_2_cols_label(ctx, "Node name", unames.nodename, NK_TEXT_LEFT);
-      add_2_cols_label(ctx, "Release", unames.release, NK_TEXT_LEFT);
-      add_2_cols_label(ctx, "Version", unames.version, NK_TEXT_LEFT);
-      add_2_cols_label(ctx, "Machine", unames.machine, NK_TEXT_LEFT);
-      sprintf(str_buffer, "%ul/%ul", info.freeram/(1024*1024),
-                                                                     info
-                                                                      .totalram/(1024*1024));
-      add_2_cols_label(ctx, "RAM: free/total", str_buffer, NK_TEXT_RIGHT);
-
-      if (global_environment.show_app_about) {
-        show_about_box(ctx);
-      }
-    }
-    nk_end(ctx);
+    new_sub_window(ctx, "Unames", nk_rect(5, 5, 430, 250), fill_unames);
+    new_sub_window(ctx, "Memory", nk_rect(440, 5, 430, 250), fill_memory);
 
     /* ----------------------------------------- */
 
