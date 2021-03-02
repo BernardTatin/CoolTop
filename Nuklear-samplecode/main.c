@@ -1,7 +1,5 @@
 /* nuklear - 1.32.0 - public domain */
 
-#define NK_IMPLEMENTATION
-#define NK_GLFW_GL3_IMPLEMENTATION
 #include "common.h"
 
 #define WINDOW_WIDTH 1200
@@ -123,7 +121,7 @@ int main(void) {
 #endif
 
   bg.r = 0.10f, bg.g = 0.18f, bg.b = 0.24f, bg.a = 1.0f;
-  while (!glfwWindowShouldClose(win) && !ready_to_exit) {
+  while (!glfwWindowShouldClose(win) && !global_environment.ready_to_exit) {
     /* Input */
     // glfwPollEvents();
     glfwWaitEventsTimeout(3.0);
