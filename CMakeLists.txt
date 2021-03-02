@@ -11,7 +11,9 @@ add_executable(CoolTop
         include/environment.h
         include/nuklear_glfw_gl3.h
         src/environment.c
-        src/nuklear_glfw_gl3.c)
+        src/nuklear_glfw_gl3.c
+        src/nuke-tools.c
+        include/nuke-tools.h)
 
 add_executable(Nuklear-sample
         include/common.h
@@ -23,7 +25,9 @@ add_executable(Nuklear-sample
         Nuklear-samplecode/overview.c
         Nuklear-samplecode/style.c
         src/environment.c
-        src/nuklear_glfw_gl3.c)
+        src/nuklear_glfw_gl3.c
+        src/nuke-tools.c
+        include/nuke-tools.h)
 
 target_link_libraries(CoolTop glfw GL m GLU GLEW)
 target_link_libraries(Nuklear-sample glfw GL m GLU GLEW)
