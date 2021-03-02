@@ -13,7 +13,7 @@ add_executable(CoolTop
         src/environment.c
         src/nuklear_glfw_gl3.c
         src/nuke-tools.c
-        include/nuke-tools.h)
+        include/nuke-tools.h CoolTop/coltop-tools.c CoolTop/coltop-tools.h)
 
 add_executable(Nuklear-sample
         include/common.h
