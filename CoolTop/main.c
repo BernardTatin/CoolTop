@@ -12,6 +12,7 @@
 #define MAX_ELEMENT_BUFFER 128 * 1024
 
 #include "environment.h"
+#include "nuke-tools.h"
 
 /* =============================================================== */
 void show_about_box(struct nk_context *ctx) {
@@ -130,16 +131,16 @@ int main(void) {
           global_environment.ready_to_exit = nk_true;
         nk_menu_end(ctx);
       }
-      nk_layout_row_dynamic(ctx, 20, 1);
-      nk_label(ctx, unames.sysname, NK_TEXT_LEFT);
-      nk_label(ctx, unames.nodename, NK_TEXT_LEFT);
-      nk_label(ctx, unames.release, NK_TEXT_LEFT);
-      nk_label(ctx, unames.version, NK_TEXT_LEFT);
-      nk_label(ctx, unames.machine, NK_TEXT_LEFT);
-      sprintf(str_buffer, "RAM: free/total %ul/%ul", info.freeram/(1024*1024),
+      nk_layout_row_dynamic(ctx, 20, 2);
+      add_2_cols_label(ctx, "System name", unames.sysname, NK_TEXT_LEFT);
+      add_2_cols_label(ctx, "Node name", unames.nodename, NK_TEXT_LEFT);
+      add_2_cols_label(ctx, "Release", unames.release, NK_TEXT_LEFT);
+      add_2_cols_label(ctx, "Version", unames.version, NK_TEXT_LEFT);
+      add_2_cols_label(ctx, "Machine", unames.machine, NK_TEXT_LEFT);
+      sprintf(str_buffer, "%ul/%ul", info.freeram/(1024*1024),
                                                                      info
                                                                       .totalram/(1024*1024));
-      nk_label(ctx, str_buffer, NK_TEXT_RIGHT);
+      add_2_cols_label(ctx, "RAM: free/total", str_buffer, NK_TEXT_RIGHT);
 
       if (global_environment.show_app_about) {
         show_about_box(ctx);
