@@ -3,7 +3,7 @@ project(CoolTop C)
 
 set(CMAKE_C_STANDARD 11)
 
-include_directories(include)
+include_directories(include ~/git/Nuklear)
 
 add_executable(CoolTop
         CoolTop/main.c
@@ -24,3 +24,6 @@ add_executable(Nuklear-sample
         Nuklear-samplecode/style.c
         src/environment.c
         src/nuklear_glfw_gl3.c)
+
+target_link_libraries(CoolTop glfw GL m GLU GLEW)
+target_link_libraries(Nuklear-sample glfw GL m GLU GLEW)
