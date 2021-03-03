@@ -20,4 +20,6 @@
 #include "cooltop-tools.h"
 #include "environment.h"
 #include "nuke-tools.h"
+#include "static-system-data.h"
+
 #endif // COOLTOP_COOLTOP_COMMON_H
