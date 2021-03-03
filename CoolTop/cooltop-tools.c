@@ -1,22 +1,8 @@
 //
 // Created by bernard on 02/03/2021.
 //
-#include <sys/sysinfo.h>
-#include <sys/utsname.h>
-#include <gnu/libc-version.h>
 
-
-#include "common.h"
-
-#define WINDOW_WIDTH 1200
-#define WINDOW_HEIGHT 800
-
-#define MAX_VERTEX_BUFFER 512 * 1024
-#define MAX_ELEMENT_BUFFER 128 * 1024
-
-#include "coltop-tools.h"
-#include "environment.h"
-#include "nuke-tools.h"
+#include "cooltop-common.h"
 
 extern struct sysinfo info;
 extern struct utsname unames;

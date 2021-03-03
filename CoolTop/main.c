@@ -1,19 +1,6 @@
 /* nuklear - 1.32.0 - public domain */
 
-#include <sys/sysinfo.h>
-#include <sys/utsname.h>
-
-#include "common.h"
-
-#define WINDOW_WIDTH 1200
-#define WINDOW_HEIGHT 800
-
-#define MAX_VERTEX_BUFFER 512 * 1024
-#define MAX_ELEMENT_BUFFER 128 * 1024
-
-#include "coltop-tools.h"
-#include "environment.h"
-#include "nuke-tools.h"
+#include "cooltop-common.h"
 
 struct sysinfo info;
 struct utsname unames;
