@@ -37,6 +37,9 @@ int main(void) {
   int width = 0, height = 0;
   struct nk_context *ctx;
   struct nk_colorf bg;
+  static float last_t = 0.0;
+  float current_time;
+
 
   init_environment(&global_environment);
   /* GLFW */
@@ -63,6 +66,10 @@ int main(void) {
     exit(1);
   }
   load_unames();
+  if (sysinfo(&info) < 0) {
+    memset(&info, 0, sizeof(struct sysinfo));
+  }
+  last_t = glfwGetTime();
   ctx = nk_glfw3_init(&glfw, win, NK_GLFW3_INSTALL_CALLBACKS);
   /* Load Fonts: if none of these are loaded a default font will be used  */
   /* Load Cursor: if you uncomment cursor loading please hide the cursor */
@@ -81,11 +88,6 @@ int main(void) {
 
   bg.r = 0.10f, bg.g = 0.18f, bg.b = 0.24f, bg.a = 1.0f;
   while (!glfwWindowShouldClose(win) && !global_environment.ready_to_exit) {
-    /* Input */
-    // glfwPollEvents();
-    static float last_t = 0.0;
-    float current_time;
-
     glfwWaitEventsTimeout(global_environment.delta_t);
     current_time = glfwGetTime();
     if (current_time - last_t >= global_environment.delta_t) {

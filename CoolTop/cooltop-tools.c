@@ -41,18 +41,14 @@ nk_bool new_sub_window(struct nk_context *ctx,
   return result;
 }
 nk_bool fill_unames(struct nk_context *ctx) {
-  static char str_buffer[64];
   add_2_cols_label(ctx, "System name", unames.sysname, NK_TEXT_LEFT);
   add_2_cols_label(ctx, "Node name", unames.nodename, NK_TEXT_LEFT);
   add_2_cols_label(ctx, "Release", unames.release, NK_TEXT_LEFT);
   add_2_cols_label(ctx, "Version", unames.version, NK_TEXT_LEFT);
   add_2_cols_label(ctx, "Machine", unames.machine, NK_TEXT_LEFT);
-  sprintf(str_buffer, "%d/%d", get_nprocs(), get_nprocs_conf());
-  add_2_cols_label(ctx, "Processors avail/configured", str_buffer,
+  add_2_cols_label(ctx, "Processors avail/configured", str_processors,
                    NK_TEXT_RIGHT);
-  sprintf(str_buffer, "%s %s", gnu_get_libc_release(), gnu_get_libc_version());
-  add_2_cols_label(ctx, "Libc version", str_buffer, NK_TEXT_RIGHT);
-
+  add_2_cols_label(ctx, "Libc version", str_libc_version, NK_TEXT_RIGHT);
   return 0;
 }
 nk_bool fill_memory(struct nk_context *ctx) {
