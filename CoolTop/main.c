@@ -2,7 +2,6 @@
 
 #include "cooltop-common.h"
 
-struct sysinfo info;
 /* =============================================================== */
 void show_about_box(struct nk_context *ctx) {
   /* about popup */
@@ -66,9 +65,7 @@ int main(void) {
     exit(1);
   }
   load_unames();
-  if (sysinfo(&info) < 0) {
-    memset(&info, 0, sizeof(struct sysinfo));
-  }
+  load_dynamic_data();
   last_t = glfwGetTime();
   ctx = nk_glfw3_init(&glfw, win, NK_GLFW3_INSTALL_CALLBACKS);
   /* Load Fonts: if none of these are loaded a default font will be used  */
@@ -91,9 +88,7 @@ int main(void) {
     glfwWaitEventsTimeout(global_environment.delta_t);
     current_time = glfwGetTime();
     if (current_time - last_t >= global_environment.delta_t) {
-      if (sysinfo(&info) < 0) {
-        memset(&info, 0, sizeof(struct sysinfo));
-      }
+      load_dynamic_data();
       last_t = glfwGetTime();
     }
     nk_glfw3_new_frame(&glfw);
