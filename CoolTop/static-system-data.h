@@ -6,6 +6,8 @@
 #define COOLTOP_STATIC_SYSTEM_DATA_H
 
 extern struct utsname unames;
+extern char str_processors[64];
+extern char str_libc_version[64];
 
 nk_bool load_unames(void);
 
