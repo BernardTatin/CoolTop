@@ -4,8 +4,6 @@
 
 #include "cooltop-common.h"
 
-extern struct sysinfo info;
-
 nk_bool new_sub_window(struct nk_context *ctx,
                        const char *title,
                        struct nk_rect bounds,
@@ -28,8 +26,6 @@ nk_bool new_sub_window(struct nk_context *ctx,
     }
     nk_layout_row_end(ctx);
     nk_layout_row_dynamic(ctx, 20, 2);
-//    nk_layout_row_begin(ctx, NK_DYNAMIC, 20, 2);
-//    nk_layout_row_push(ctx, 0.75f);
     fill_me(ctx);
     result = nk_true;
   }
@@ -51,16 +47,13 @@ nk_bool fill_unames(struct nk_context *ctx) {
   return 0;
 }
 nk_bool fill_memory(struct nk_context *ctx) {
-  static char str_buffer[64];
-  sprintf(str_buffer, "%lu/%lu", info.freeram/(1024*1024),
-          info.totalram/(1024*1024));
-  add_2_cols_label(ctx, "RAM: free/total", str_buffer, NK_TEXT_RIGHT);
-  sprintf(str_buffer, "%lu/%lu", info.freeswap/MEGA_BYTES,
-          info.totalswap/MEGA_BYTES);
-  add_2_cols_label(ctx, "SWAP: free/total", str_buffer, NK_TEXT_RIGHT);
-  sprintf(str_buffer, "%lu", info.sharedram/MEGA_BYTES);
-  add_2_cols_label(ctx, "Shared memory", str_buffer, NK_TEXT_RIGHT);
-  sprintf(str_buffer, "%lu", info.bufferram/MEGA_BYTES);
-  add_2_cols_label(ctx, "Buffers", str_buffer, NK_TEXT_RIGHT);
+  add_2_cols_label(ctx, "RAM: free/total",
+                   global_dynamic_data.str_RAM, NK_TEXT_RIGHT);
+  add_2_cols_label(ctx, "SWAP: free/total",
+                   global_dynamic_data.str_SWAP, NK_TEXT_RIGHT);
+  add_2_cols_label(ctx, "Shared memory",
+                   global_dynamic_data.str_SHARED, NK_TEXT_RIGHT);
+  add_2_cols_label(ctx, "Buffers",
+                   global_dynamic_data.str_BUFFERS, NK_TEXT_RIGHT);
   return 0;
 }
