@@ -5,7 +5,6 @@
 #include "cooltop-common.h"
 
 extern struct sysinfo info;
-extern struct utsname unames;
 
 nk_bool new_sub_window(struct nk_context *ctx,
                        const char *title,
@@ -41,14 +40,14 @@ nk_bool new_sub_window(struct nk_context *ctx,
   return result;
 }
 nk_bool fill_unames(struct nk_context *ctx) {
-  add_2_cols_label(ctx, "System name", unames.sysname, NK_TEXT_LEFT);
-  add_2_cols_label(ctx, "Node name", unames.nodename, NK_TEXT_LEFT);
-  add_2_cols_label(ctx, "Release", unames.release, NK_TEXT_LEFT);
-  add_2_cols_label(ctx, "Version", unames.version, NK_TEXT_LEFT);
-  add_2_cols_label(ctx, "Machine", unames.machine, NK_TEXT_LEFT);
-  add_2_cols_label(ctx, "Processors avail/configured", str_processors,
+  add_2_cols_label(ctx, "System name", global_static_data.unames.sysname, NK_TEXT_LEFT);
+  add_2_cols_label(ctx, "Node name", global_static_data.unames.nodename, NK_TEXT_LEFT);
+  add_2_cols_label(ctx, "Release", global_static_data.unames.release, NK_TEXT_LEFT);
+  add_2_cols_label(ctx, "Version", global_static_data.unames.version, NK_TEXT_LEFT);
+  add_2_cols_label(ctx, "Machine", global_static_data.unames.machine, NK_TEXT_LEFT);
+  add_2_cols_label(ctx, "Processors avail/configured", global_static_data.str_processors,
                    NK_TEXT_RIGHT);
-  add_2_cols_label(ctx, "Libc version", str_libc_version, NK_TEXT_RIGHT);
+  add_2_cols_label(ctx, "Libc version", global_static_data.str_libc_version, NK_TEXT_RIGHT);
   return 0;
 }
 nk_bool fill_memory(struct nk_context *ctx) {

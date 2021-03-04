@@ -4,17 +4,15 @@
 
 #include "cooltop-common.h"
 
-struct utsname unames;
-char str_processors[64];
-char str_libc_version[64];
+static_data global_static_data;
 
 nk_bool load_unames(void) {
-  if (uname(&unames)) {
-    memset(&unames, 0, sizeof(struct utsname));
-    strcpy(unames.sysname, "ERROR!");
+  if (uname(&global_static_data.unames)) {
+    memset(&global_static_data.unames, 0, sizeof(struct utsname));
+    strcpy(global_static_data.unames.sysname, "ERROR!");
     return nk_false;
   }
-  sprintf(str_processors, "%d/%d", get_nprocs(), get_nprocs_conf());
-  sprintf(str_libc_version, "%s %s", gnu_get_libc_release(), gnu_get_libc_version());
+  sprintf(global_static_data.str_processors, "%d/%d", get_nprocs(), get_nprocs_conf());
+  sprintf(global_static_data.str_libc_version, "%s %s", gnu_get_libc_release(), gnu_get_libc_version());
   return nk_true;
 }
