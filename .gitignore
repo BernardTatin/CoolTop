@@ -3,6 +3,8 @@
 
 # exe
 */bin/
+build*/
+*/build*/
 cmake-build-debug/
 
 # Prerequisites
