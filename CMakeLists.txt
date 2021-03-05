@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.17)
 project(CoolTop C)
 
 set(CMAKE_C_STANDARD 11)
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
+
+list(APPEND COMMON_LIBS "glfw" "GL" "m" "GLU" "GLEW" "nklib" "m")
 
 include_directories(include ~/git/Nuklear)
 
@@ -38,5 +41,6 @@ add_library(nklib STATIC src/environment.c
         include/nuklear_glfw_gl3.h
         include/nuke-tools.h
         )
-target_link_libraries(CoolTop glfw GL m GLU GLEW nklib m)
-target_link_libraries(Nuklear-sample glfw GL GLU GLEW nklib m)
+
+target_link_libraries(CoolTop  ${COMMON_LIBS})
+target_link_libraries(Nuklear-sample ${COMMON_LIBS})
