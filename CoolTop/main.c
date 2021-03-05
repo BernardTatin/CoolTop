@@ -1,40 +1,8 @@
 /* nuklear - 1.32.0 - public domain */
 
-#include <sys/sysinfo.h>
-#include <sys/utsname.h>
+#include "cooltop-common.h"
 
-#include "common.h"
-
-#define WINDOW_WIDTH 1200
-#define WINDOW_HEIGHT 800
-
-#define MAX_VERTEX_BUFFER 512 * 1024
-#define MAX_ELEMENT_BUFFER 128 * 1024
-
-#include "coltop-tools.h"
-#include "environment.h"
-#include "nuke-tools.h"
-
-struct sysinfo info;
-struct utsname unames;
 /* =============================================================== */
-void show_about_box(struct nk_context *ctx) {
-  /* about popup */
-  static struct nk_rect s = {20, 100, 300, 190};
-  if (nk_popup_begin(ctx, NK_POPUP_STATIC, "About", NK_WINDOW_CLOSABLE, s)) {
-    nk_layout_row_dynamic(ctx, 20, 1);
-    nk_label(ctx, "CoolTop", NK_TEXT_CENTERED);
-    nk_label(ctx, "By Bernard Tatin", NK_TEXT_CENTERED);
-    nk_label(ctx, "With love", NK_TEXT_CENTERED);
-    nk_label(ctx, "and with nuklear", NK_TEXT_CENTERED);
-    nk_label(ctx, "which is licensed under", NK_TEXT_CENTERED);
-    nk_label(ctx, "the public domain License.", NK_TEXT_CENTERED);
-    nk_popup_end(ctx);
-  } else {
-    global_environment.show_app_about = nk_false;
-  }
-}
-
 /* ===============================================================
  *
  *                          CoolTop
@@ -51,6 +19,9 @@ int main(void) {
   int width = 0, height = 0;
   struct nk_context *ctx;
   struct nk_colorf bg;
+  static float last_t = 0.0;
+  float current_time;
+
 
   init_environment(&global_environment);
   /* GLFW */
@@ -76,7 +47,9 @@ int main(void) {
     fprintf(stderr, "Failed to setup GLEW\n");
     exit(1);
   }
-
+  load_unames();
+  load_dynamic_data();
+  last_t = glfwGetTime();
   ctx = nk_glfw3_init(&glfw, win, NK_GLFW3_INSTALL_CALLBACKS);
   /* Load Fonts: if none of these are loaded a default font will be used  */
   /* Load Cursor: if you uncomment cursor loading please hide the cursor */
@@ -95,27 +68,16 @@ int main(void) {
 
   bg.r = 0.10f, bg.g = 0.18f, bg.b = 0.24f, bg.a = 1.0f;
   while (!glfwWindowShouldClose(win) && !global_environment.ready_to_exit) {
-    /* Input */
-    // glfwPollEvents();
-    static float last_t = 0.0;
-    float current_time;
-
     glfwWaitEventsTimeout(global_environment.delta_t);
     current_time = glfwGetTime();
     if (current_time - last_t >= global_environment.delta_t) {
-      if (uname(&unames)) {
-        memset(&unames, 0, sizeof(struct utsname));
-        strcpy(unames.sysname, "ERROR!");
-      }
-      if (sysinfo(&info) < 0) {
-        memset(&info, 0, sizeof(struct sysinfo));
-      }
+      load_dynamic_data();
       last_t = glfwGetTime();
     }
     nk_glfw3_new_frame(&glfw);
     /* GUI */
-    new_sub_window(ctx, "Unames", nk_rect(5, 5, 430, 250), fill_unames);
-    new_sub_window(ctx, "Memory", nk_rect(440, 5, 430, 250), fill_memory);
+    new_sub_window(ctx, "Unames", nk_rect(5, 5, 430, 250), &unames_behavior);
+    new_sub_window(ctx, "Memory", nk_rect(440, 5, 430, 250), &memory_behavior);
 
     /* ----------------------------------------- */
 
