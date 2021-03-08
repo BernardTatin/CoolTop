@@ -13,7 +13,7 @@ void show_about_box(struct nk_context *ctx) {
              NK_TEXT_LEFT);
     nk_popup_end(ctx);
   } else
-    global_environment.show_app_about = nk_false;
+    global_environment.app_states.show_app_about = nk_false;
 }
 
 int overview(struct nk_context *ctx) {
@@ -67,9 +67,9 @@ int overview(struct nk_context *ctx) {
         if (nk_menu_item_label(ctx, "Hide", NK_TEXT_LEFT))
           show_menu = nk_false;
         if (nk_menu_item_label(ctx, "About", NK_TEXT_LEFT))
-          global_environment.show_app_about = nk_true;
+          global_environment.app_states.show_app_about = nk_true;
         if (nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT))
-          global_environment.ready_to_exit = nk_true;
+          global_environment.app_states.ready_to_exit = nk_true;
 //        nk_progress(ctx, &prog, 100, NK_MODIFIABLE);
 //        nk_slider_int(ctx, 0, &slider, 16, 1);
 //        nk_checkbox_label(ctx, "check", &check);
@@ -97,7 +97,7 @@ int overview(struct nk_context *ctx) {
           nk_menu_item_label(ctx, "Save", NK_TEXT_LEFT);
           nk_menu_item_label(ctx, "Close", NK_TEXT_LEFT);
           if (nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT))
-            global_environment.ready_to_exit = nk_true;
+            global_environment.app_states.ready_to_exit = nk_true;
           nk_tree_pop(ctx);
         } else
           menu_state = (menu_state == MENU_FILE) ? MENU_NONE : menu_state;
@@ -117,7 +117,7 @@ int overview(struct nk_context *ctx) {
         if (nk_tree_state_push(ctx, NK_TREE_TAB, "VIEW", &state)) {
           menu_state = MENU_VIEW;
           if (nk_menu_item_label(ctx, "About", NK_TEXT_LEFT))
-            global_environment.show_app_about = nk_true;
+            global_environment.app_states.show_app_about = nk_true;
           nk_menu_item_label(ctx, "Options", NK_TEXT_LEFT);
           nk_menu_item_label(ctx, "Customize", NK_TEXT_LEFT);
           nk_tree_pop(ctx);
@@ -148,7 +148,7 @@ int overview(struct nk_context *ctx) {
       nk_menubar_end(ctx);
     }
 
-    if (global_environment.show_app_about) {
+    if (global_environment.app_states.show_app_about) {
       show_about_box(ctx);
     }
 
@@ -796,7 +796,7 @@ int overview(struct nk_context *ctx) {
         nk_progress(ctx, &prog, 100, NK_MODIFIABLE);
         nk_slider_int(ctx, 0, &slider, 16, 1);
         if (nk_contextual_item_label(ctx, "About", NK_TEXT_CENTERED))
-          global_environment.show_app_about = nk_true;
+          global_environment.app_states.show_app_about = nk_true;
         nk_selectable_label(ctx, select[0] ? "Unselect" : "Select",
                             NK_TEXT_LEFT, &select[0]);
         nk_selectable_label(ctx, select[1] ? "Unselect" : "Select",
