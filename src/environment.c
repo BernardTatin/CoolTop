@@ -18,8 +18,12 @@ void init_environment(GlobalEnvironment *env,
   if (!env->app_states.init_done) {
     memset(env, 0, sizeof(GlobalEnvironment));
     env->app_configuration.delta_t = 0.0f;
-    env->app_configuration.title = strdup(title);
-    env->app_configuration.font_name = strdup(font_name);
+    if (title != NULL) {
+      env->app_configuration.title = strdup(title);
+    }
+    if (font_name != NULL) {
+      env->app_configuration.font_name = strdup (font_name);
+    }
     env->app_configuration.font_size = 14;
     env->app_states.init_done = nk_true;
   }
