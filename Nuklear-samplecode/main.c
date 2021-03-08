@@ -52,85 +52,32 @@ int node_editor(struct nk_context *ctx);
  *                          DEMO
  *
  * ===============================================================*/
-static void error_callback(int e, const char *d) {
-  printf("Error %d: %s\n", e, d);
-}
-
 int main(void) {
-  /* Platform */
-  struct nk_glfw glfw = {0};
-  static GLFWwindow *win;
-  int width = 0, height = 0;
-  struct nk_context *ctx;
-  struct nk_colorf bg;
-
   /* GLFW */
-  glfwSetErrorCallback(error_callback);
-  if (!glfwInit()) {
-    fprintf(stdout, "[GFLW] failed to init!\n");
-    exit(1);
-  }
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef __APPLE__
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-  win = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Demo", NULL, NULL);
-  glfwMakeContextCurrent(win);
-  glfwGetWindowSize(win, &width, &height);
+  init_environment(&global_environment,
+                   "Nuklear demo",
+                   NULL);
+  init_application(&global_environment);
 
-  /* OpenGL */
-  glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-  glewExperimental = 1;
-  if (glewInit() != GLEW_OK) {
-    fprintf(stderr, "Failed to setup GLEW\n");
-    exit(1);
-  }
-
-  ctx = nk_glfw3_init(&glfw, win, NK_GLFW3_INSTALL_CALLBACKS);
-  /* Load Fonts: if none of these are loaded a default font will be used  */
-  /* Load Cursor: if you uncomment cursor loading please hide the cursor */
-  {
-    struct nk_font_atlas *atlas;
-    nk_glfw3_font_stash_begin(&glfw, &atlas);
-    /*struct nk_font *droid = nk_font_atlas_add_from_file(atlas,
-     * "../../../extra_font/DroidSans.ttf", 14, 0);*/
-    /*struct nk_font *roboto = nk_font_atlas_add_from_file(atlas,
-     * "../../../extra_font/Roboto-Regular.ttf", 14, 0);*/
-    /*struct nk_font *future = nk_font_atlas_add_from_file(atlas,
-     * "../../../extra_font/kenvector_future_thin.ttf", 13, 0);*/
-    /*struct nk_font *clean = nk_font_atlas_add_from_file(atlas,
-     * "../../../extra_font/ProggyClean.ttf", 12, 0);*/
-    /*struct nk_font *tiny = nk_font_atlas_add_from_file(atlas,
-     * "../../../extra_font/ProggyTiny.ttf", 10, 0);*/
-    /*struct nk_font *cousine = nk_font_atlas_add_from_file(atlas,
-     * "../../../extra_font/Cousine-Regular.ttf", 13, 0);*/
-#if defined(NUKEFONT) && defined(FONT_HEIGHT)
-    struct nk_font *nukefont =
-        nk_font_atlas_add_from_file(atlas, NUKEFONT, FONT_HEIGHT, 0);
-#endif
-    nk_glfw3_font_stash_end(&glfw);
-    /*nk_style_load_all_cursors(ctx, atlas->cursors);*/
-#if defined(NUKEFONT)
-    nk_style_set_font(ctx, &nukefont->handle);
-#endif
-  }
+  global_environment.app_configuration.bg.r = 0.10f;
+  global_environment.app_configuration.bg.g = 0.18f;
+  global_environment.app_configuration.bg.b = 0.24f;
+  global_environment.app_configuration.bg.a = 1.0f;
 
 #ifdef INCLUDE_STYLE
-  set_style(ctx, THEME_WHITE);
-  set_style(ctx, THEME_RED);
+  set_style(global_environment.nuklear_states.ctx, THEME_WHITE);
+  set_style(global_environment.nuklear_states.ctx, THEME_RED);
 /*set_style(ctx, THEME_BLUE);*/
 /*set_style(ctx, THEME_DARK);*/
 #endif
 
-  bg.r = 0.10f, bg.g = 0.18f, bg.b = 0.24f, bg.a = 1.0f;
-  while (!glfwWindowShouldClose(win) && !global_environment.ready_to_exit) {
+  while (!glfwWindowShouldClose(global_environment.glfw_states.win) &&
+         !global_environment.app_states.ready_to_exit) {
     /* Input */
-    // glfwPollEvents();
-    glfwWaitEventsTimeout(3.0);
+     glfwPollEvents();
+//    glfwWaitEventsTimeout(3.0);
     fprintf(stdout, "Event or time out? %5.3f seconds\n", glfwGetTime());
-    nk_glfw3_new_frame(&glfw);
+    nk_glfw3_new_frame(&global_environment.glfw_states.glfw);
 
 ////    nk_layout_row_begin(ctx, NK_STATIC, 25, 5);
 ////    nk_layout_row_push(ctx, 45);
@@ -151,69 +98,55 @@ int main(void) {
     }
 */
     /* GUI */
-    if (nk_begin(ctx, "Demo", nk_rect(50, 50, 230, 250),
+    if (nk_begin(global_environment.nuklear_states.ctx, "Demo", nk_rect(50, 50, 230, 250),
                  NK_WINDOW_BORDER | NK_WINDOW_MOVABLE | NK_WINDOW_SCALABLE |
                      NK_WINDOW_MINIMIZABLE | NK_WINDOW_TITLE)) {
       enum { EASY, HARD };
       static int op = EASY;
       static int property = 20;
-      nk_layout_row_static(ctx, 30, 80, 1);
-      if (nk_button_label(ctx, "button"))
+      nk_layout_row_static(global_environment.nuklear_states.ctx, 30, 80, 1);
+      if (nk_button_label(global_environment.nuklear_states.ctx, "button"))
         fprintf(stdout, "button pressed\n");
 
-      nk_layout_row_dynamic(ctx, 30, 2);
-      if (nk_option_label(ctx, "easy", op == EASY))
+      nk_layout_row_dynamic(global_environment.nuklear_states.ctx, 30, 2);
+      if (nk_option_label(global_environment.nuklear_states.ctx, "easy", op == EASY))
         op = EASY;
-      if (nk_option_label(ctx, "hard", op == HARD))
+      if (nk_option_label(global_environment.nuklear_states.ctx, "hard", op == HARD))
         op = HARD;
 
-      nk_layout_row_dynamic(ctx, 25, 1);
-      nk_property_int(ctx, "Compression:", 0, &property, 100, 10, 1);
+      nk_layout_row_dynamic(global_environment.nuklear_states.ctx, 25, 1);
+      nk_property_int(global_environment.nuklear_states.ctx, "Compression:", 0, &property, 100, 10, 1);
 
-      nk_layout_row_dynamic(ctx, 20, 1);
-      nk_label(ctx, "background:", NK_TEXT_LEFT);
-      nk_layout_row_dynamic(ctx, 25, 1);
-      if (nk_combo_begin_color(ctx, nk_rgb_cf(bg),
-                               nk_vec2(nk_widget_width(ctx), 400))) {
-        nk_layout_row_dynamic(ctx, 120, 1);
-        bg = nk_color_picker(ctx, bg, NK_RGBA);
-        nk_layout_row_dynamic(ctx, 25, 1);
-        bg.r = nk_propertyf(ctx, "#R:", 0, bg.r, 1.0f, 0.01f, 0.005f);
-        bg.g = nk_propertyf(ctx, "#G:", 0, bg.g, 1.0f, 0.01f, 0.005f);
-        bg.b = nk_propertyf(ctx, "#B:", 0, bg.b, 1.0f, 0.01f, 0.005f);
-        bg.a = nk_propertyf(ctx, "#A:", 0, bg.a, 1.0f, 0.01f, 0.005f);
-        nk_combo_end(ctx);
+      nk_layout_row_dynamic(global_environment.nuklear_states.ctx, 20, 1);
+      nk_label(global_environment.nuklear_states.ctx, "background:", NK_TEXT_LEFT);
+      nk_layout_row_dynamic(global_environment.nuklear_states.ctx, 25, 1);
+      if (nk_combo_begin_color(global_environment.nuklear_states.ctx, nk_rgb_cf(global_environment.app_configuration.bg),
+                               nk_vec2(nk_widget_width(global_environment.nuklear_states.ctx), 400))) {
+        nk_layout_row_dynamic(global_environment.nuklear_states.ctx, 120, 1);
+        global_environment.app_configuration.bg = nk_color_picker(global_environment.nuklear_states.ctx, global_environment.app_configuration.bg, NK_RGBA);
+        nk_layout_row_dynamic(global_environment.nuklear_states.ctx, 25, 1);
+        global_environment.app_configuration.bg.r = nk_propertyf(global_environment.nuklear_states.ctx, "#R:", 0, global_environment.app_configuration.bg.r, 1.0f, 0.01f, 0.005f);
+        global_environment.app_configuration.bg.g = nk_propertyf(global_environment.nuklear_states.ctx, "#G:", 0, global_environment.app_configuration.bg.g, 1.0f, 0.01f, 0.005f);
+        global_environment.app_configuration.bg.b = nk_propertyf(global_environment.nuklear_states.ctx, "#B:", 0, global_environment.app_configuration.bg.b, 1.0f, 0.01f, 0.005f);
+        global_environment.app_configuration.bg.a = nk_propertyf(global_environment.nuklear_states.ctx, "#A:", 0, global_environment.app_configuration.bg.a, 1.0f, 0.01f, 0.005f);
+        nk_combo_end(global_environment.nuklear_states.ctx);
       }
     }
-    nk_end(ctx);
+    nk_end(global_environment.nuklear_states.ctx);
 
 /* -------------- EXAMPLES ---------------- */
 #ifdef INCLUDE_CALCULATOR
-    calculator(ctx);
+    calculator(global_environment.nuklear_states.ctx);
 #endif
 #ifdef INCLUDE_OVERVIEW
-    overview(ctx);
+    overview(global_environment.nuklear_states.ctx);
 #endif
 #ifdef INCLUDE_NODE_EDITOR
-    node_editor(ctx);
+    node_editor(global_environment.nuklear_states.ctx);
 #endif
     /* ----------------------------------------- */
-
-    /* Draw */
-    glfwGetWindowSize(win, &width, &height);
-    glViewport(0, 0, width, height);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(bg.r, bg.g, bg.b, bg.a);
-    /* IMPORTANT: `nk_glfw_render` modifies some global OpenGL state
-     * with blending, scissor, face culling, depth test and viewport and
-     * defaults everything back into a default state.
-     * Make sure to either a.) save and restore or b.) reset your own state
-     * after rendering the UI. */
-    nk_glfw3_render(&glfw, NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER,
-                    MAX_ELEMENT_BUFFER);
-    glfwSwapBuffers(win);
+    draw_and_render(&global_environment);
   }
-  nk_glfw3_shutdown(&glfw);
-  glfwTerminate();
+  application_terminate(&global_environment);
   return 0;
 }
