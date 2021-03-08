@@ -11,11 +11,19 @@
 
 #include "common.h"
 
+#if !defined(WINDOW_WIDTH )
 #define WINDOW_WIDTH 1200
+#endif
+#if !defined(WINDOW_HEIGHT )
 #define WINDOW_HEIGHT 800
+#endif
 
+#if !defined(MAX_VERTEX_BUFFER )
 #define MAX_VERTEX_BUFFER 512 * 1024
+#endif
+#if !defined(MAX_ELEMENT_BUFFER )
 #define MAX_ELEMENT_BUFFER 128 * 1024
+#endif
 
 #include "cooltop-tools.h"
 #include "environment.h"
