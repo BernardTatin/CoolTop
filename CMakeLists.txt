@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.17)
 project(CoolTop C)
 
 set(CMAKE_C_STANDARD 11)
-set(CMAKE_VERBOSE_MAKEFILE TRUE)
+#set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
-list(APPEND COMMON_LIBS "glfw" "GL" "m" "GLU" "GLEW" "nklib" "m")
+list(APPEND COMMON_LIBS "glfw" "GL" "m" "GLU" "GLEW" "nklib" "m" "GL")
 
 include_directories(include ~/git/Nuklear)
 
