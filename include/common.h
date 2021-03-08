@@ -67,5 +67,8 @@ enum theme {THEME_BLACK, THEME_WHITE, THEME_RED, THEME_BLUE, THEME_DARK};
 
 #define DBG()   { fprintf(stdout, "%5d %s\n", __LINE__, __FILE__); }
 
-#define MEGA_BYTES    (1024*1024)
+#define KILO_BYTES    (1024)
+#define MEGA_BYTES    (KILO_BYTES * KILO_BYTES)
+#define GIGA_BYTES    (MEGA_BYTES * KILO_BYTES)
+
 #endif // COOLTOP_COMMON_H
