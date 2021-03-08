@@ -5,8 +5,12 @@
 #define WINDOW_WIDTH 1200
 #define WINDOW_HEIGHT 800
 
-#define MAX_VERTEX_BUFFER 512 * 1024
-#define MAX_ELEMENT_BUFFER 128 * 1024
+#if !defined(MAX_VERTEX_BUFFER )
+#define MAX_VERTEX_BUFFER (512 * 1024)
+#endif
+#if !defined(MAX_ELEMENT_BUFFER )
+#define MAX_ELEMENT_BUFFER (128 * 1024)
+#endif
 
 #include "environment.h"
 
