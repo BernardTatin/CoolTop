@@ -4,7 +4,8 @@ project(CoolTop C)
 set(CMAKE_C_STANDARD 11)
 #set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
-list(APPEND COMMON_LIBS "glfw" "GL" "m" "GLU" "GLEW" "nklib" "m" "GL")
+#list(APPEND COMMON_LIBS "glfw" "GL" "m" "GLU" "GLEW" "nklib" "m" "GL")
+list(APPEND COMMON_LIBS "glfw" "GL" "GLU" "GLEW" "nklib" "m" "GL")
 
 include_directories(include ~/git/Nuklear)
 
