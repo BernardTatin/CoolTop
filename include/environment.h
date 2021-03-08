@@ -41,10 +41,10 @@ SOFTWARE.
 #endif
 
 #if !defined(MAX_VERTEX_BUFFER )
-#define MAX_VERTEX_BUFFER 512 * 1024
+#define MAX_VERTEX_BUFFER (512 * 1024)
 #endif
 #if !defined(MAX_ELEMENT_BUFFER )
-#define MAX_ELEMENT_BUFFER 128 * 1024
+#define MAX_ELEMENT_BUFFER (128 * 1024)
 #endif
 
 typedef struct {
