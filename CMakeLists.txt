@@ -7,14 +7,14 @@ set(CMAKE_C_STANDARD 11)
 #list(APPEND COMMON_LIBS "glfw" "GL" "m" "GLU" "GLEW" "nklib" "m" "GL")
 list(APPEND COMMON_LIBS "glfw" "GL" "GLU" "GLEW" "nklib" "m" "GL")
 
-include_directories(include ~/git/Nuklear)
+include_directories(lib/include ~/git/Nuklear)
 
 add_executable(CoolTop
         CoolTop/main.c
-        include/common.h
-        include/environment.h
-        include/nuklear_glfw_gl3.h
-        include/nuke-tools.h
+        lib/include/common.h
+        lib/include/environment.h
+        lib/include/nuklear_glfw_gl3.h
+        lib/include/nuke-tools.h
         CoolTop/cooltop-tools.c
         CoolTop/cooltop-tools.h
         CoolTop/cooltop-common.h
@@ -24,23 +24,23 @@ add_executable(CoolTop
         CoolTop/dynamic-system-data.h)
 
 add_executable(Nuklear-sample
-        include/common.h
-        include/environment.h
-        include/nuklear_glfw_gl3.h
+        lib/include/common.h
+        lib/include/environment.h
+        lib/include/nuklear_glfw_gl3.h
         Nuklear-samplecode/calculator.c
         Nuklear-samplecode/main.c
         Nuklear-samplecode/node_editor.c
         Nuklear-samplecode/overview.c
         Nuklear-samplecode/style.c
-        include/nuke-tools.h)
+        lib/include/nuke-tools.h)
 
-add_library(nklib STATIC src/environment.c
-        src/nuklear_glfw_gl3.c
-        src/nuke-tools.c
-        include/common.h
-        include/environment.h
-        include/nuklear_glfw_gl3.h
-        include/nuke-tools.h
+add_library(nklib STATIC lib/src/environment.c
+        lib/src/nuklear_glfw_gl3.c
+        lib/src/nuke-tools.c
+        lib/include/common.h
+        lib/include/environment.h
+        lib/include/nuklear_glfw_gl3.h
+        lib/include/nuke-tools.h
         )
 
 target_link_libraries(CoolTop  ${COMMON_LIBS})
