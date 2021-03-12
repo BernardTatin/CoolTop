@@ -31,7 +31,7 @@ SOFTWARE.
 
 #ifndef COOLTOP_COLTOP_TOOLS_H
 #define COOLTOP_COLTOP_TOOLS_H
-#include <nuklear.h>
+#include <local-nuklear.h>
 
 typedef struct {
   nk_bool show_app_about;

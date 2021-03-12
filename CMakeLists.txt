@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 project(CoolTop C)
 
 set(CMAKE_C_STANDARD 11)
-#set(CMAKE_VERBOSE_MAKEFILE TRUE)
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 #list(APPEND COMMON_LIBS "glfw" "GL" "m" "GLU" "GLEW" "nklib" "m" "GL")
 list(APPEND COMMON_LIBS "glfw" "GL" "GLU" "GLEW" "nklib" "m" "GL")
@@ -13,7 +13,7 @@ add_executable(CoolTop
         CoolTop/main.c
         lib/include/common.h
         lib/include/environment.h
-        lib/include/nuklear_glfw_gl3.h
+        lib/include/local-nuklear.h
         lib/include/nuke-tools.h
         CoolTop/cooltop-tools.c
         CoolTop/cooltop-tools.h
@@ -26,7 +26,7 @@ add_executable(CoolTop
 add_executable(Nuklear-sample
         lib/include/common.h
         lib/include/environment.h
-        lib/include/nuklear_glfw_gl3.h
+        lib/include/local-nuklear.h
         Nuklear-samplecode/calculator.c
         Nuklear-samplecode/main.c
         Nuklear-samplecode/node_editor.c
@@ -35,11 +35,11 @@ add_executable(Nuklear-sample
         lib/include/nuke-tools.h)
 
 add_library(nklib STATIC lib/src/environment.c
-        lib/src/nuklear_glfw_gl3.c
+        lib/src/local-nuklear.c
         lib/src/nuke-tools.c
         lib/include/common.h
         lib/include/environment.h
-        lib/include/nuklear_glfw_gl3.h
+        lib/include/local-nuklear.h
         lib/include/nuke-tools.h
         )
 
