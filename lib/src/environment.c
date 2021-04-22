@@ -36,13 +36,13 @@ SOFTWARE.
 
 GlobalEnvironment global_environment;
 
-static void on_glfw_error(void) {
+static void on_glfw_error(const int line ) {
     const char *description = NULL;
     int code = glfwGetError(&description);
 
     if (code != GLFW_NO_ERROR) {
-        fprintf(stderr, "FATAL GLFW ERROR %d: %s\n",
-                code, description);
+        fprintf(stderr, "Line %4d - FATAL GLFW ERROR %d: %s\n",
+                line, code, description);
         exit(1);
     }
 }
@@ -72,16 +72,20 @@ nk_bool init_application(GlobalEnvironment *env) {
   DBG();
   glfwSetErrorCallback(error_callback);
   DBG();
-  if (!glfwInit()) {
+  if (glfwInit() != GLFW_TRUE) {
     fprintf(stdout, "[GFLW] failed to init!\n");
+    on_glfw_error(__LINE__);
     exit(1);
   }
   DBG();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  on_glfw_error(__LINE__);
   DBG();
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+  on_glfw_error(__LINE__);
   DBG();
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  on_glfw_error(__LINE__);
   DBG();
 
 #ifdef __APPLE__
@@ -91,7 +95,7 @@ nk_bool init_application(GlobalEnvironment *env) {
                                           "CoolTop", NULL,
                                NULL);
   if (env->glfw_states.win == NULL) {
-      on_glfw_error();
+      on_glfw_error(__LINE__);
   }
   DBG();
   glfwMakeContextCurrent(env->glfw_states.win);
