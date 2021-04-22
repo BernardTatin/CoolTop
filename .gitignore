@@ -1,4 +1,5 @@
 # idea files
+.*.swp
 .idea
 
 # exe

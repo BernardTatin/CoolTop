@@ -32,9 +32,11 @@ SOFTWARE.
 #ifndef COOLTOP_COOLTOP_COMMON_H
 #define COOLTOP_COOLTOP_COMMON_H
 
+#if !defined(__NetBSD__)
 #include <sys/sysinfo.h>
-#include <sys/utsname.h>
 #include <gnu/libc-version.h>
+#endif
+#include <sys/utsname.h>
 
 #include "common.h"
 

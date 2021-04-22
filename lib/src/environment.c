@@ -30,10 +30,22 @@ SOFTWARE.
 // ======================================================================
 
 #include <string.h>
+#include <stdio.h>
 #include "common.h"
 #include "environment.h"
 
 GlobalEnvironment global_environment;
+
+static void on_glfw_error(void) {
+    const char *description = NULL;
+    int code = glfwGetError(&description);
+
+    if (code != GLFW_NO_ERROR) {
+        fprintf(stderr, "FATAL GLFW ERROR %d: %s\n",
+                code, description);
+        exit(1);
+    }
+}
 
 static void error_callback(int e, const char *d) {
   fprintf(stderr, "Error %d: %s\n", e, d);
@@ -57,15 +69,20 @@ void init_environment(GlobalEnvironment *env,
 }
 
 nk_bool init_application(GlobalEnvironment *env) {
-  /* GLFW */
+  DBG();
   glfwSetErrorCallback(error_callback);
+  DBG();
   if (!glfwInit()) {
     fprintf(stdout, "[GFLW] failed to init!\n");
     exit(1);
   }
+  DBG();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  DBG();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  DBG();
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  DBG();
 
 #ifdef __APPLE__
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -73,20 +90,30 @@ nk_bool init_application(GlobalEnvironment *env) {
   env->glfw_states.win = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT,
                                           "CoolTop", NULL,
                                NULL);
+  if (env->glfw_states.win == NULL) {
+      on_glfw_error();
+  }
+  DBG();
   glfwMakeContextCurrent(env->glfw_states.win);
+  DBG();
   glfwGetWindowSize(env->glfw_states.win,
                     &env->nuklear_states.width,
                     &env->nuklear_states.height);
 
   /* OpenGL */
+  DBG();
   glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+  DBG();
   glewExperimental = 1;
+  DBG();
   if (glewInit() != GLEW_OK) {
     fprintf(stderr, "Failed to setup GLEW\n");
     exit(1);
   }
+  DBG();
   env->nuklear_states.ctx = nk_glfw3_init(&env->glfw_states.glfw, env->glfw_states.win,
                                           NK_GLFW3_INSTALL_CALLBACKS);
+  DBG();
 
   /* Load Fonts: if none of these are loaded a default font will be used  */
   /* Load Cursor: if you uncomment cursor loading please hide the cursor */
@@ -102,7 +129,7 @@ nk_bool init_application(GlobalEnvironment *env) {
     nk_style_set_font(env->nuklear_states.ctx, &nukefont->handle);
 #endif
   }
-
+  DBG();
 }
 void draw_and_render(GlobalEnvironment *env) {
   /* Draw */

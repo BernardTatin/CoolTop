@@ -53,11 +53,13 @@ int node_editor(struct nk_context *ctx);
  *
  * ===============================================================*/
 int main(void) {
-  /* GLFW */
+  DBG();
   init_environment(&global_environment,
                    "Nuklear demo",
                    NULL);
+  DBG();
   init_application(&global_environment);
+  DBG();
 
   global_environment.app_configuration.bg.r = 0.10f;
   global_environment.app_configuration.bg.g = 0.18f;
