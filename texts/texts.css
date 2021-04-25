@@ -2,7 +2,16 @@
  * texts.css
  */
 
-p, li {
+body {
+    max-width:96%;
+}
+
+p, li, blockquote, code, pre {
+    font-size: 1.5em;
+    max-width:92%;
+}
+
+p, li, blockquote {
     text-align:justify;
 }
 
