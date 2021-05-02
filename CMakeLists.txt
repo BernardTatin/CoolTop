@@ -4,10 +4,22 @@ project(CoolTop C)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_VERBOSE_MAKEFILE FALSE)
 
-#list(APPEND COMMON_LIBS "glfw" "GL" "m" "GLU" "GLEW" "nklib" "m" "GL")
-list(APPEND COMMON_LIBS "glfw" "GL" "GLU" "GLEW" "nklib" "m" "GL")
+IF(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
+    find_package(glfw3 CONFIG REQUIRED)
+    find_package(OpenGL REQUIRED)
+    find_package(GLUT REQUIRED)
+    find_package(GLEW REQUIRED)
+    list(APPEND COMMON_LIBS "glfw" "GL" "GLU" "GLEW" "nklib" "m" "GL")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    list(APPEND COMMON_LIBS "glfw" "GL" "GLU" "GLEW" "nklib" "m" "GL")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 include_directories(lib/include ~/git/Nuklear)
+IF(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
+    link_directories(/usr/X11R7/lib /usr/pkg/lib)
+    include_directories(/usr/X11R7/include /usr/pkg/include)
+endif(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
 
 add_executable(CoolTop
         CoolTop/main.c

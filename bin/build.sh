@@ -3,13 +3,8 @@
 build_dir=build
 case $(uname) in
     NetBSD)
-        libglfw3=$(pkg-config --libs glfw3)
-        libGL="-L/usr/X11R7/lib -Wl,-R/usr/X11R7/lib -lGL"
-        libGLU="-L/usr/X11R7/lib -Wl,-R/usr/X11R7/lib -lGLU -Wl,-R/usr/X11R7/lib -lGL"
-        libGLEW="-L/usr/X11R7/lib -Wl,-R/usr/X11R7/lib -lGLEW -Wl,-R/usr/X11R7/lib -lGLU -Wl,-R/usr/X11R7/lib -lGL"
-
-        export LDFLAGS="$libGL -lm $libGLU $libGLEW $libglfw3"
-        export CFLAGS="-I/usr/X11R7/include -I/usr/pkg/include"
+        export LDFLAGS=""
+        export CFLAGS=""
         export MAKE=gmake
         export CC=clang
         ;;
@@ -25,7 +20,7 @@ case $(uname) in
         ;;
 esac
 
-CFLAGS="${CFLAGS} -Wall -pedantic -I../../Nuklear"
+export CFLAGS="$CFLAGS -Wall -pedantic"
 
 dohelp() {
     cat <<DOHELP
