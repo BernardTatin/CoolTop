@@ -78,7 +78,7 @@ int main(void) {
     /* Input */
      glfwPollEvents();
 //    glfwWaitEventsTimeout(3.0);
-    fprintf(stdout, "Event or time out? %5.3f seconds\n", glfwGetTime());
+//    fprintf(stdout, "Event or time out? %5.3f seconds\n", glfwGetTime());
     nk_glfw3_new_frame(&global_environment.glfw_states.glfw);
 
 ////    nk_layout_row_begin(ctx, NK_STATIC, 25, 5);
