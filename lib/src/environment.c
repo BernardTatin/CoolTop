@@ -81,7 +81,7 @@ nk_bool init_application(GlobalEnvironment *env) {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   on_glfw_error(__LINE__);
   DBG();
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   on_glfw_error(__LINE__);
   DBG();
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -108,11 +108,16 @@ nk_bool init_application(GlobalEnvironment *env) {
   DBG();
   glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
   DBG();
-  glewExperimental = 1;
+  glewExperimental = 0;
   DBG();
-  if (glewInit() != GLEW_OK) {
-    fprintf(stderr, "Failed to setup GLEW\n");
-    exit(1);
+  {
+      GLenum err = glewInit();
+      if (err != 0) {
+          fprintf(stderr, "Failed to setup GLEW: %d %s\n",
+                  (int)err,
+                  glewGetErrorString(err));
+          exit(1);
+      }
   }
   DBG();
   env->nuklear_states.ctx = nk_glfw3_init(&env->glfw_states.glfw, env->glfw_states.win,
@@ -134,6 +139,7 @@ nk_bool init_application(GlobalEnvironment *env) {
 #endif
   }
   DBG();
+  return nk_true;
 }
 void draw_and_render(GlobalEnvironment *env) {
   /* Draw */
