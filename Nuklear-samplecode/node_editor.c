@@ -174,7 +174,7 @@ node_editor_init(struct node_editor *editor)
     editor->show_grid = nk_true;
 }
 
-int node_editor(struct nk_context *ctx) {
+void node_editor(struct nk_context *ctx) {
     int n = 0;
     struct nk_rect total_space;
     const struct nk_input *in = &ctx->input;
@@ -366,6 +366,5 @@ int node_editor(struct nk_context *ctx) {
         }
     }
     nk_end(ctx);
-    return !nk_window_is_closed(ctx, "NodeEdit");
 }
 

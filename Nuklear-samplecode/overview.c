@@ -45,7 +45,7 @@ void show_about_box(struct nk_context *ctx) {
     global_environment.app_states.show_popup = nk_false;
 }
 
-int overview(struct nk_context *ctx) {
+void overview(struct nk_context *ctx) {
   /* window flags */
   static int show_menu = nk_true;
   static int titlebar = nk_true;
@@ -1443,5 +1443,4 @@ int overview(struct nk_context *ctx) {
     }
   }
   nk_end(ctx);
-  return !nk_window_is_closed(ctx, "Overview");
 }

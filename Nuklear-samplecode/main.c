@@ -79,7 +79,7 @@ int node_editor(struct nk_context *ctx);
  *                          DEMO
  *
  * ===============================================================*/
-static int first_window(struct nk_context *ctx) {
+static void first_window(struct nk_context *ctx) {
     if (nk_begin(global_environment.nuklear_states.ctx, "Demo", nk_rect(50, 50, 230, 250),
                  NK_WINDOW_BORDER | NK_WINDOW_MOVABLE | NK_WINDOW_SCALABLE |
                  NK_WINDOW_MINIMIZABLE | NK_WINDOW_TITLE)) {
