@@ -65,9 +65,8 @@ typedef struct {
   int init_done;
   // when we are ready o exit
   int ready_to_exit;
-  // the about popup is on
-  // NOTE: must be extended to every popup?
-  int show_app_about;
+  // when a popup is shown
+  int show_popup;
 } AppStates;
 
 typedef struct {

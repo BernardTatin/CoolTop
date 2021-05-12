@@ -42,7 +42,7 @@ void show_about_box(struct nk_context *ctx) {
              NK_TEXT_LEFT);
     nk_popup_end(ctx);
   } else
-    global_environment.app_states.show_app_about = nk_false;
+    global_environment.app_states.show_popup = nk_false;
 }
 
 int overview(struct nk_context *ctx) {
@@ -96,7 +96,7 @@ int overview(struct nk_context *ctx) {
         if (nk_menu_item_label(ctx, "Hide", NK_TEXT_LEFT))
           show_menu = nk_false;
         if (nk_menu_item_label(ctx, "About", NK_TEXT_LEFT))
-          global_environment.app_states.show_app_about = nk_true;
+          global_environment.app_states.show_popup = nk_true;
         if (nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT))
           global_environment.app_states.ready_to_exit = nk_true;
 //        nk_progress(ctx, &prog, 100, NK_MODIFIABLE);
@@ -146,7 +146,7 @@ int overview(struct nk_context *ctx) {
         if (nk_tree_state_push(ctx, NK_TREE_TAB, "VIEW", &state)) {
           menu_state = MENU_VIEW;
           if (nk_menu_item_label(ctx, "About", NK_TEXT_LEFT))
-            global_environment.app_states.show_app_about = nk_true;
+            global_environment.app_states.show_popup = nk_true;
           nk_menu_item_label(ctx, "Options", NK_TEXT_LEFT);
           nk_menu_item_label(ctx, "Customize", NK_TEXT_LEFT);
           nk_tree_pop(ctx);
@@ -155,14 +155,14 @@ int overview(struct nk_context *ctx) {
 
         state = (menu_state == MENU_CHART) ? NK_MAXIMIZED : NK_MINIMIZED;
         if (nk_tree_state_push(ctx, NK_TREE_TAB, "CHART", &state)) {
-          size_t i = 0;
           const float values[] = {26.0f, 13.0f, 30.0f, 15.0f, 25.0f, 10.0f,
                                   20.0f, 40.0f, 12.0f, 8.0f,  22.0f, 28.0f};
           menu_state = MENU_CHART;
           nk_layout_row_dynamic(ctx, 150, 1);
           nk_chart_begin(ctx, NK_CHART_COLUMN, NK_LEN(values), 0, 50);
-          for (i = 0; i < NK_LEN(values); ++i)
+          for (size_t i = 0; i < NK_LEN(values); ++i) {
             nk_chart_push(ctx, values[i]);
+          }
           nk_chart_end(ctx);
           nk_tree_pop(ctx);
         } else
@@ -177,7 +177,7 @@ int overview(struct nk_context *ctx) {
       nk_menubar_end(ctx);
     }
 
-    if (global_environment.app_states.show_app_about) {
+    if (global_environment.app_states.show_popup) {
       show_about_box(ctx);
     }
 
@@ -509,13 +509,12 @@ int overview(struct nk_context *ctx) {
         /* chart combobox */
         sprintf(buffer, "%.1f", chart_selection);
         if (nk_combo_begin_label(ctx, buffer, nk_vec2(200, 250))) {
-          size_t i = 0;
           static const float values[] = {26.0f, 13.0f, 30.0f, 15.0f, 25.0f,
                                          10.0f, 20.0f, 40.0f, 12.0f, 8.0f,
                                          22.0f, 28.0f, 5.0f};
           nk_layout_row_dynamic(ctx, 150, 1);
           nk_chart_begin(ctx, NK_CHART_COLUMN, NK_LEN(values), 0, 50);
-          for (i = 0; i < NK_LEN(values); ++i) {
+          for (size_t i = 0; i < NK_LEN(values); ++i) {
             nk_flags res = nk_chart_push(ctx, values[i]);
             if (res & NK_CHART_CLICKED) {
               chart_selection = values[i];
@@ -612,8 +611,9 @@ int overview(struct nk_context *ctx) {
 
               /* weekdays  */
               nk_layout_row_dynamic(ctx, 35, 7);
-              for (i = 0; i < (int)NK_LEN(week_days); ++i)
+              for (size_t  i = 0; i < (int)NK_LEN(week_days); ++i) {
                 nk_label(ctx, week_days[i], NK_TEXT_CENTERED);
+              }
 
               /* days  */
               if (week_day > 0)
@@ -825,7 +825,7 @@ int overview(struct nk_context *ctx) {
         nk_progress(ctx, &prog, 100, NK_MODIFIABLE);
         nk_slider_int(ctx, 0, &slider, 16, 1);
         if (nk_contextual_item_label(ctx, "About", NK_TEXT_CENTERED))
-          global_environment.app_states.show_app_about = nk_true;
+          global_environment.app_states.show_popup = nk_true;
         nk_selectable_label(ctx, select[0] ? "Unselect" : "Select",
                             NK_TEXT_LEFT, &select[0]);
         nk_selectable_label(ctx, select[1] ? "Unselect" : "Select",
