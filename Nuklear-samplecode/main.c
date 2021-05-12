@@ -93,8 +93,6 @@ int main(void) {
 #ifdef INCLUDE_STYLE
   set_style(global_environment.nuklear_states.ctx, THEME_WHITE);
   set_style(global_environment.nuklear_states.ctx, THEME_RED);
-/*set_style(ctx, THEME_BLUE);*/
-/*set_style(ctx, THEME_DARK);*/
 #endif
 
   while (!glfwWindowShouldClose(global_environment.glfw_states.win) &&
@@ -102,27 +100,8 @@ int main(void) {
     /* Input */
      glfwPollEvents();
 //    glfwWaitEventsTimeout(3.0);
-//    fprintf(stdout, "Event or time out? %5.3f seconds\n", glfwGetTime());
     nk_glfw3_new_frame(&global_environment.glfw_states.glfw);
 
-////    nk_layout_row_begin(ctx, NK_STATIC, 25, 5);
-////    nk_layout_row_push(ctx, 45);
-/*
-    if (nk_menu_begin_label(ctx, "MENU", NK_TEXT_LEFT, nk_vec2(120, 200))) {
-      nk_layout_row_dynamic(ctx, 25, 1);
-      if (nk_menu_item_label(ctx, "About", NK_TEXT_LEFT))
-        show_app_about = nk_true;
-      if (nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT))
-        ready_to_exit = nk_true;
-      nk_menubar_end(ctx);
-    }
-*/
-//    nk_layout_row_end(ctx);
-/*
-    if (show_app_about) {
-      show_about_box(ctx);
-    }
-*/
     /* GUI */
     if (nk_begin(global_environment.nuklear_states.ctx, "Demo", nk_rect(50, 50, 230, 250),
                  NK_WINDOW_BORDER | NK_WINDOW_MOVABLE | NK_WINDOW_SCALABLE |
