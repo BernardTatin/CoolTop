@@ -1,0 +1,17 @@
+/*
+ * texts.css
+ */
+
+body {
+    max-width:96%;
+}
+
+p, li, blockquote, code, pre {
+    font-size: 1.1em;
+    max-width:92%;
+}
+
+p, li, blockquote {
+    text-align:justify;
+}
+
