@@ -29,8 +29,6 @@ SOFTWARE.
 // Global environment management.
 // ======================================================================
 
-#include <string.h>
-#include <stdio.h>
 #include "common.h"
 #include "environment.h"
 
@@ -69,24 +67,18 @@ void init_environment(GlobalEnvironment *env,
 }
 
 nk_bool init_application(GlobalEnvironment *env) {
-  DBG();
   glfwSetErrorCallback(error_callback);
-  DBG();
   if (glfwInit() != GLFW_TRUE) {
     fprintf(stdout, "[GFLW] failed to init!\n");
     on_glfw_error(__LINE__);
     exit(1);
   }
-  DBG();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   on_glfw_error(__LINE__);
-  DBG();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   on_glfw_error(__LINE__);
-  DBG();
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   on_glfw_error(__LINE__);
-  DBG();
 
 #ifdef __APPLE__
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -97,19 +89,14 @@ nk_bool init_application(GlobalEnvironment *env) {
   if (env->glfw_states.win == NULL) {
       on_glfw_error(__LINE__);
   }
-  DBG();
   glfwMakeContextCurrent(env->glfw_states.win);
-  DBG();
   glfwGetWindowSize(env->glfw_states.win,
                     &env->nuklear_states.width,
                     &env->nuklear_states.height);
 
   /* OpenGL */
-  DBG();
   glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-  DBG();
   glewExperimental = 0;
-  DBG();
   {
       GLenum err = glewInit();
       if (err != 0) {
@@ -119,10 +106,8 @@ nk_bool init_application(GlobalEnvironment *env) {
           exit(1);
       }
   }
-  DBG();
   env->nuklear_states.ctx = nk_glfw3_init(&env->glfw_states.glfw, env->glfw_states.win,
                                           NK_GLFW3_INSTALL_CALLBACKS);
-  DBG();
 
   /* Load Fonts: if none of these are loaded a default font will be used  */
   /* Load Cursor: if you uncomment cursor loading please hide the cursor */
@@ -138,7 +123,6 @@ nk_bool init_application(GlobalEnvironment *env) {
     nk_style_set_font(env->nuklear_states.ctx, &nukefont->handle);
 #endif
   }
-  DBG();
   return nk_true;
 }
 void draw_and_render(GlobalEnvironment *env) {
