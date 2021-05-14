@@ -28,9 +28,10 @@ SOFTWARE.
  */
 
 #include "common.h"
+#include "windows_list.h"
 
 #define WINDOW_WIDTH 1200
-#define WINDOW_HEIGHT 800
+#define WINDOW_HEIGHT 640
 
 #if !defined(MAX_VERTEX_BUFFER )
 #define MAX_VERTEX_BUFFER (512 * 1024)
@@ -68,10 +69,10 @@ void set_style(struct nk_context *ctx, enum theme theme);
 void calculator(struct nk_context *ctx);
 #endif
 #ifdef INCLUDE_OVERVIEW
-int overview(struct nk_context *ctx);
+void overview(struct nk_context *ctx);
 #endif
 #ifdef INCLUDE_NODE_EDITOR
-int node_editor(struct nk_context *ctx);
+void node_editor(struct nk_context *ctx);
 #endif
 
 /* ===============================================================
@@ -117,8 +118,31 @@ static void first_window(struct nk_context *ctx) {
     nk_end(global_environment.nuklear_states.ctx);
 }
 
+static WindowList *demo_list(void) {
+    WindowList *list = new_window_list();
+    Window *w = new_window(first_window);
+    w->title = "first window";
+    add_window_list(list, new_window_element(w));
+#ifdef INCLUDE_CALCULATOR
+    w = new_window(calculator);
+    w->title = "calculator";
+    add_window_list(list, new_window_element(w));
+#endif
+#ifdef INCLUDE_OVERVIEW
+    w = new_window(overview);
+    w->title = "overview";
+    add_window_list(list, new_window_element(w));
+#endif
+#ifdef INCLUDE_NODE_EDITOR
+    w = new_window(node_editor);
+    w->title = "node editor";
+    add_window_list(list, new_window_element(w));
+#endif
+    return list;
+}
 
 int main(void) {
+    WindowList *wlist = demo_list();
   init_environment(&global_environment,
                    "Nuklear demo",
                    NULL);
@@ -142,17 +166,11 @@ int main(void) {
     nk_glfw3_new_frame(&global_environment.glfw_states.glfw);
 
     /* GUI */
-    first_window(global_environment.nuklear_states.ctx);
-/* -------------- EXAMPLES ---------------- */
-#ifdef INCLUDE_CALCULATOR
-    calculator(global_environment.nuklear_states.ctx);
-#endif
-#ifdef INCLUDE_OVERVIEW
-    overview(global_environment.nuklear_states.ctx);
-#endif
-#ifdef INCLUDE_NODE_EDITOR
-    node_editor(global_environment.nuklear_states.ctx);
-#endif
+      {
+          struct nk_context *ctx = global_environment.nuklear_states.ctx;
+
+          draw_window_list(ctx, wlist);
+      }
     /* ----------------------------------------- */
     draw_and_render(&global_environment);
   }
