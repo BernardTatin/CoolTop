@@ -33,7 +33,7 @@ static inline void push_window_list(WindowList *wlist, WindowElement *welement) 
     }
 }
 
-static inline void add_window_list(WindowList *wlist, WindowElement *welement) {
+static inline void add_window_elt_list(WindowList *wlist, WindowElement *welement) {
     if (wlist->first != NULL) {
         wlist->last->next = welement;
         wlist->last = welement;
@@ -42,6 +42,10 @@ static inline void add_window_list(WindowList *wlist, WindowElement *welement) {
         wlist->first = welement;
         wlist->last = welement;
     }
+}
+
+static inline void add_window_list(WindowList *wlist, Window *w) {
+    add_window_elt_list(wlist, new_window_element(w));
 }
 
 #endif //COOLTOP_WINDOWS_LIST_H

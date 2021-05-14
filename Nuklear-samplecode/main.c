@@ -99,10 +99,10 @@ void first_window_proc(Window *w, struct nk_context *ctx) {
 static WindowList *demo_list(void) {
     WindowList *list = new_window_list();
 
-    add_window_list(list, new_window_element(&first_window));
-    add_window_list(list, new_window_element(&calculator_window));
-    add_window_list(list, new_window_element(&overview_window));
-    add_window_list(list, new_window_element(&node_editor_window));
+    add_window_list(list, &first_window);
+    add_window_list(list, &calculator_window);
+    add_window_list(list, &overview_window);
+    add_window_list(list, &node_editor_window);
     return list;
 }
 
