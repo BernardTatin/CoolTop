@@ -19,6 +19,11 @@ typedef struct _Window {
     int x, y;
     // dimensions
     int width, height;
+    // window flags
+    nk_flags window_flags;
+    // draw using only the draw_function or using
+    // the wrapper function
+    nk_bool direct_draw;
     // function which draw the window
     void (*draw_window)(struct _Window *w,
                         struct nk_context *ctx);
@@ -29,6 +34,9 @@ typedef struct _WindowElement {
     Window *window;
     struct _WindowElement *next;
 } WindowElement;
+
+void wrapped_draw_window(struct _Window *w,
+                    struct nk_context *ctx);
 
 static inline Window *new_window(void (*draw_window)(struct _Window *w,
                                                      struct nk_context *ctx)) {

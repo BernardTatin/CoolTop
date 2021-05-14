@@ -14,7 +14,11 @@ void draw_window_list(struct nk_context *ctx, WindowList *wlist) {
     while (welt != NULL) {
         Window *w = welt->window;
         if (w->enabled && !w->closed) {
-            w->draw_window(w, ctx);
+            if (w->direct_draw) {
+                w->draw_window(w, ctx);
+            } else {
+                wrapped_draw_window(w, ctx);
+            }
         }
         welt = welt->next;
     }
