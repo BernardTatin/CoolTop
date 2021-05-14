@@ -29,6 +29,7 @@ SOFTWARE.
 
 #include "common.h"
 #include "environment.h"
+#include "window_element.h"
 
 void show_about_box(struct nk_context *ctx) {
   /* about popup */
@@ -45,7 +46,7 @@ void show_about_box(struct nk_context *ctx) {
     global_environment.app_states.show_popup = nk_false;
 }
 
-void overview(struct nk_context *ctx) {
+void overview(Window *w, struct nk_context *ctx) {
   /* window flags */
   static int show_menu = nk_true;
   static int titlebar = nk_true;

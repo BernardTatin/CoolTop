@@ -28,7 +28,9 @@ SOFTWARE.
  */
 
 #include "common.h"
-void calculator(struct nk_context *ctx) {
+#include "window_element.h"
+
+void calculator(Window *w, struct nk_context *ctx) {
     if (nk_begin(ctx, "Calculator", nk_rect(10, 10, 180, 250),
         NK_WINDOW_BORDER|NK_WINDOW_NO_SCROLLBAR|NK_WINDOW_MOVABLE))
     {

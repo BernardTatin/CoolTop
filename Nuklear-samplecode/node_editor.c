@@ -39,6 +39,7 @@ SOFTWARE.
  * into something more serious it is probably best to extend it.*/
 
 #include "common.h"
+#include "window_element.h"
 
 struct node {
     int ID;
@@ -174,7 +175,7 @@ node_editor_init(struct node_editor *editor)
     editor->show_grid = nk_true;
 }
 
-void node_editor(struct nk_context *ctx) {
+void node_editor(Window *w, struct nk_context *ctx) {
     int n = 0;
     struct nk_rect total_space;
     const struct nk_input *in = &ctx->input;
