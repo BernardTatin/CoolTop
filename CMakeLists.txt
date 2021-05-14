@@ -21,6 +21,18 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
     include_directories(/usr/X11R7/include /usr/pkg/include)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
 
+add_library(nklib STATIC lib/src/environment.c
+        lib/src/local-nuklear.c
+        lib/src/nuke-tools.c
+        lib/include/common.h
+        lib/include/environment.h
+        lib/include/local-nuklear.h
+        lib/include/nuke-tools.h
+        lib/src/windows_list.c
+        lib/include/windows_list.h
+        lib/src/window_element.c
+        lib/include/window_element.h)
+
 add_executable(CoolTop
         CoolTop/main.c
         lib/include/common.h
@@ -44,16 +56,11 @@ add_executable(Nuklear-sample
         Nuklear-samplecode/node_editor.c
         Nuklear-samplecode/overview.c
         Nuklear-samplecode/style.c
-        lib/include/nuke-tools.h Nuklear-samplecode/about-box.c Nuklear-samplecode/about-box.h Nuklear-samplecode/nuke_sample.h Nuklear-samplecode/nuke_sample.c)
-
-add_library(nklib STATIC lib/src/environment.c
-        lib/src/local-nuklear.c
-        lib/src/nuke-tools.c
-        lib/include/common.h
-        lib/include/environment.h
-        lib/include/local-nuklear.h
         lib/include/nuke-tools.h
-        lib/src/windows_list.c lib/include/windows_list.h lib/src/window_element.c lib/include/window_element.h)
+        Nuklear-samplecode/about-box.c
+        Nuklear-samplecode/about-box.h
+        Nuklear-samplecode/nuke_sample.h
+        Nuklear-samplecode/nuke_sample.c)
 
 target_link_libraries(CoolTop  ${COMMON_LIBS})
 target_link_libraries(Nuklear-sample ${COMMON_LIBS})
