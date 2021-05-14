@@ -39,6 +39,8 @@ SOFTWARE.
  * into something more serious it is probably best to extend it.*/
 
 #include "common.h"
+#include "window_element.h"
+#include "nuke_sample.h"
 
 struct node {
     int ID;
@@ -174,7 +176,7 @@ node_editor_init(struct node_editor *editor)
     editor->show_grid = nk_true;
 }
 
-int node_editor(struct nk_context *ctx) {
+void node_editor(Window *w, struct nk_context *ctx) {
     int n = 0;
     struct nk_rect total_space;
     const struct nk_input *in = &ctx->input;
@@ -187,7 +189,8 @@ int node_editor(struct nk_context *ctx) {
         nodeEditor.initialized = 1;
     }
 
-    if (nk_begin(ctx, "NodeEdit", nk_rect(0, 0, 800, 600),
+    if (nk_begin(ctx, w->title,
+                 nk_rect(w->x, w->y, w->width, w->height),
         NK_WINDOW_BORDER|NK_WINDOW_NO_SCROLLBAR|NK_WINDOW_MOVABLE|NK_WINDOW_CLOSABLE))
     {
         /* allocate complete window space */
@@ -366,6 +369,5 @@ int node_editor(struct nk_context *ctx) {
         }
     }
     nk_end(ctx);
-    return !nk_window_is_closed(ctx, "NodeEdit");
 }
 

@@ -44,7 +44,7 @@ add_executable(Nuklear-sample
         Nuklear-samplecode/node_editor.c
         Nuklear-samplecode/overview.c
         Nuklear-samplecode/style.c
-        lib/include/nuke-tools.h)
+        lib/include/nuke-tools.h Nuklear-samplecode/about-box.c Nuklear-samplecode/about-box.h Nuklear-samplecode/nuke_sample.h Nuklear-samplecode/nuke_sample.c)
 
 add_library(nklib STATIC lib/src/environment.c
         lib/src/local-nuklear.c
@@ -53,7 +53,7 @@ add_library(nklib STATIC lib/src/environment.c
         lib/include/environment.h
         lib/include/local-nuklear.h
         lib/include/nuke-tools.h
-        )
+        lib/src/windows_list.c lib/include/windows_list.h lib/src/window_element.c lib/include/window_element.h)
 
 target_link_libraries(CoolTop  ${COMMON_LIBS})
 target_link_libraries(Nuklear-sample ${COMMON_LIBS})

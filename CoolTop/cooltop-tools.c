@@ -57,7 +57,7 @@ static void show_about_box(struct nk_context *ctx, sub_window_behavior *window_b
     nk_popup_end(ctx);
   } else {
     window_behavior->show_app_about = nk_false;
-    global_environment.app_states.show_app_about = nk_false;
+    global_environment.app_states.show_popup = nk_false;
   }
 }
 
@@ -76,9 +76,9 @@ nk_bool new_sub_window(struct nk_context *ctx,
     if (nk_menu_begin_label(ctx, "MENU", NK_TEXT_LEFT, nk_vec2(120, 200))) {
       nk_layout_row_dynamic(ctx, 25, 1);
       if (nk_menu_item_label(ctx, "About", NK_TEXT_LEFT)) {
-        if (!global_environment.app_states.show_app_about) {
+        if (!global_environment.app_states.show_popup) {
           window_behavior->show_app_about = nk_true;
-          global_environment.app_states.show_app_about = nk_true;
+          global_environment.app_states.show_popup = nk_true;
         }
       }
       if (nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT)) {
