@@ -29,9 +29,11 @@ SOFTWARE.
 
 #include "common.h"
 #include "window_element.h"
+#include "nuke_sample.h"
 
 void calculator(Window *w, struct nk_context *ctx) {
-    if (nk_begin(ctx, "Calculator", nk_rect(10, 10, 180, 250),
+    if (nk_begin(ctx, w->title,
+                 nk_rect(w->x, w->y, w->width, w->height),
         NK_WINDOW_BORDER|NK_WINDOW_NO_SCROLLBAR|NK_WINDOW_MOVABLE))
     {
         static int set = 0, prev = 0, op = 0;

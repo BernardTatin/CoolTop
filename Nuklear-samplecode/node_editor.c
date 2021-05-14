@@ -40,6 +40,7 @@ SOFTWARE.
 
 #include "common.h"
 #include "window_element.h"
+#include "nuke_sample.h"
 
 struct node {
     int ID;
@@ -188,7 +189,8 @@ void node_editor(Window *w, struct nk_context *ctx) {
         nodeEditor.initialized = 1;
     }
 
-    if (nk_begin(ctx, "NodeEdit", nk_rect(0, 0, 800, 600),
+    if (nk_begin(ctx, w->title,
+                 nk_rect(w->x, w->y, w->width, w->height),
         NK_WINDOW_BORDER|NK_WINDOW_NO_SCROLLBAR|NK_WINDOW_MOVABLE|NK_WINDOW_CLOSABLE))
     {
         /* allocate complete window space */

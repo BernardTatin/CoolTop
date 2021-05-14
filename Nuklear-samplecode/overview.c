@@ -29,22 +29,9 @@ SOFTWARE.
 
 #include "common.h"
 #include "environment.h"
+#include "about-box.h"
 #include "window_element.h"
-
-void show_about_box(struct nk_context *ctx) {
-  /* about popup */
-  static struct nk_rect s = {20, 100, 300, 190};
-  if (nk_popup_begin(ctx, NK_POPUP_STATIC, "About", NK_WINDOW_CLOSABLE,
-                     s)) {
-    nk_layout_row_dynamic(ctx, 20, 1);
-    nk_label(ctx, "Nuklear", NK_TEXT_LEFT);
-    nk_label(ctx, "By Micha Mettke", NK_TEXT_LEFT);
-    nk_label(ctx, "nuklear is licensed under the public domain License.",
-             NK_TEXT_LEFT);
-    nk_popup_end(ctx);
-  } else
-    global_environment.app_states.show_popup = nk_false;
-}
+#include "nuke_sample.h"
 
 void overview(Window *w, struct nk_context *ctx) {
   /* window flags */
@@ -77,7 +64,9 @@ void overview(Window *w, struct nk_context *ctx) {
   if (minimizable)
     window_flags |= NK_WINDOW_MINIMIZABLE;
 
-  if (nk_begin(ctx, "Overview", nk_rect(10, 10, 400, 600), window_flags)) {
+  if (nk_begin(ctx, w->title,
+          nk_rect(w->x, w->y, w->width, w->height),
+          window_flags)) {
     if (show_menu) {
       /* menubar */
       enum menu_states { MENU_DEFAULT, MENU_WINDOWS };

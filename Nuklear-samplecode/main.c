@@ -29,6 +29,7 @@ SOFTWARE.
 
 #include "common.h"
 #include "windows_list.h"
+#include "nuke_sample.h"
 
 #define WINDOW_WIDTH 1200
 #define WINDOW_HEIGHT 640
@@ -49,39 +50,16 @@ SOFTWARE.
  * ===============================================================*/
 /* This are some code examples to provide a small overview of what can be
  * done with this library. To try out an example uncomment the defines */
-/*#define INCLUDE_ALL */
-#define INCLUDE_STYLE
-#define INCLUDE_CALCULATOR
-#define INCLUDE_OVERVIEW
-#define INCLUDE_NODE_EDITOR
 
-#ifdef INCLUDE_ALL
-#define INCLUDE_STYLE
-#define INCLUDE_CALCULATOR
-#define INCLUDE_OVERVIEW
-#define INCLUDE_NODE_EDITOR
-#endif
-
-#ifdef INCLUDE_STYLE
-void set_style(struct nk_context *ctx, enum theme theme);
-#endif
-#ifdef INCLUDE_CALCULATOR
-void calculator(Window *w, struct nk_context *ctx);
-#endif
-#ifdef INCLUDE_OVERVIEW
-void overview(Window *w, struct nk_context *ctx);
-#endif
-#ifdef INCLUDE_NODE_EDITOR
-void node_editor(Window *w, struct nk_context *ctx);
-#endif
 
 /* ===============================================================
  *
  *                          DEMO
  *
  * ===============================================================*/
-static void first_window(Window *w, struct nk_context *ctx) {
-    if (nk_begin(ctx, "Demo", nk_rect(50, 50, 230, 250),
+void first_window_proc(Window *w, struct nk_context *ctx) {
+    if (nk_begin(ctx, w->title,
+                 nk_rect(w->x, w->y, w->width, w->height),
                  NK_WINDOW_BORDER | NK_WINDOW_MOVABLE | NK_WINDOW_SCALABLE |
                  NK_WINDOW_MINIMIZABLE | NK_WINDOW_TITLE)) {
         enum { EASY, HARD };
@@ -120,24 +98,11 @@ static void first_window(Window *w, struct nk_context *ctx) {
 
 static WindowList *demo_list(void) {
     WindowList *list = new_window_list();
-    Window *w = new_window(first_window);
-    w->title = "first window";
-    add_window_list(list, new_window_element(w));
-#ifdef INCLUDE_CALCULATOR
-    w = new_window(calculator);
-    w->title = "calculator";
-    add_window_list(list, new_window_element(w));
-#endif
-#ifdef INCLUDE_OVERVIEW
-    w = new_window(overview);
-    w->title = "overview";
-    add_window_list(list, new_window_element(w));
-#endif
-#ifdef INCLUDE_NODE_EDITOR
-    w = new_window(node_editor);
-    w->title = "node editor";
-    add_window_list(list, new_window_element(w));
-#endif
+
+    add_window_list(list, new_window_element(&first_window));
+    add_window_list(list, new_window_element(&calculator_window));
+    add_window_list(list, new_window_element(&overview_window));
+    add_window_list(list, new_window_element(&node_editor_window));
     return list;
 }
 
@@ -153,10 +118,8 @@ int main(void) {
   global_environment.app_configuration.bg.b = 0.24f;
   global_environment.app_configuration.bg.a = 1.0f;
 
-#ifdef INCLUDE_STYLE
   set_style(global_environment.nuklear_states.ctx, THEME_WHITE);
   set_style(global_environment.nuklear_states.ctx, THEME_RED);
-#endif
 
   while (!glfwWindowShouldClose(global_environment.glfw_states.win) &&
          !global_environment.app_states.ready_to_exit) {
