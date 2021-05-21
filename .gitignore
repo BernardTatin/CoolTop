@@ -2,6 +2,9 @@
 .*.swp
 .idea
 
+# from unknown source
+CoolTopNew.srctrl*
+
 # results of edition
 *.pdf
 
