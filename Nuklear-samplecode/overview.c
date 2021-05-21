@@ -549,7 +549,6 @@ void overview(Window *w, struct nk_context *ctx) {
           sprintf(buffer, "%02d-%02d-%02d", sel_date.tm_mday,
                   sel_date.tm_mon + 1, sel_date.tm_year + 1900);
           if (nk_combo_begin_label(ctx, buffer, nk_vec2(350, 400))) {
-            int i = 0;
             const char *month[] = {"January", "February", "March",
                                    "April",   "May",      "June",
                                    "July",    "August",   "September",
@@ -608,7 +607,7 @@ void overview(Window *w, struct nk_context *ctx) {
               /* days  */
               if (week_day > 0)
                 nk_spacing(ctx, week_day);
-              for (i = 1; i <= days; ++i) {
+              for (int i = 1; i <= days; ++i) {
                 sprintf(buffer, "%d", i);
                 if (nk_button_label(ctx, buffer)) {
                   sel_date.tm_mday = i;
