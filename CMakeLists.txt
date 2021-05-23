@@ -4,6 +4,7 @@ project(CoolTop C)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_VERBOSE_MAKEFILE FALSE)
 
+IF(WITH_NUKLEAR)
 IF(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
     find_package(glfw3 CONFIG REQUIRED)
     find_package(OpenGL REQUIRED)
@@ -15,7 +16,7 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     list(APPEND COMMON_LIBS "glfw" "GL" "GLU" "GLEW" "nklib" "m" "GL")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-include_directories(nklib/include ctoplib/include)
+include_directories(nklib/include)
 include_directories(~/git/Nuklear)
 IF(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
     link_directories(/usr/X11R7/lib /usr/pkg/lib)
@@ -33,13 +34,6 @@ add_library(nklib STATIC nklib/src/environment.c
         nklib/include/windows_list.h
         nklib/src/window_element.c
         nklib/include/window_element.h)
-
-add_library(ctoplib STATIC
-        ctoplib/src/static-data.c ctoplib/include/static-data.h
-        )
-
-add_executable(test-ctop
-        test-ctop/test-ctop.c)
 
 add_executable(CoolTop
         CoolTop/main.c
@@ -70,6 +64,16 @@ add_executable(Nuklear-sample
         Nuklear-samplecode/nuke_sample.h
         Nuklear-samplecode/nuke_sample.c)
 
-target_link_libraries(test-ctop  ctoplib)
 target_link_libraries(CoolTop  ${COMMON_LIBS})
 target_link_libraries(Nuklear-sample ${COMMON_LIBS})
+endif(WITH_NUKLEAR)
+
+add_library(ctoplib STATIC
+        ctoplib/src/static-data.c ctoplib/include/static-data.h
+        )
+
+include_directories(ctoplib/include)
+add_executable(test-ctop
+        test-ctop/test-ctop.c)
+
+target_link_libraries(test-ctop  ctoplib)
