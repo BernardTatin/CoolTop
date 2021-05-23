@@ -15,8 +15,14 @@
 
 typedef struct {
     struct utsname unames;
+#if defined(__Linux__) || defined(__NetBSD__)
+    int nb_procs;
+    int nb_procs_conf;
     char str_processors[64];
+#endif
+#if defined(__Linux__)
     char str_libc_version[64];
+#endif
 } static_data;
 
 static_data *get_static_data(void);

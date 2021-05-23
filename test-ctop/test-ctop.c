@@ -7,9 +7,9 @@
 
 int main(int argn, char *argv[]) {
     static_data *sdata = get_static_data();
-    printf("%s - %s - %s\n",
-           sdata->unames.sysname,
-           sdata->str_processors,
-           sdata->str_libc_version);
+    printf("System: %s\n",
+           sdata->unames.sysname);
+    printf("Processors: %s\n",
+           sdata->str_processors);
     return 0;
 }
