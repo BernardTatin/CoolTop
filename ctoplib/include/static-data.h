@@ -5,22 +5,26 @@
 #ifndef COOLTOP_STATIC_DATA_H
 #define COOLTOP_STATIC_DATA_H
 
+#if defined(__linux__) && !defined(__Linux__)
+#define __Linux__
+#endif
+
 #include <stdbool.h>
 #include <string.h>
 #if !defined(__NetBSD__)
-#include <sys/sysinfo.h>
+#include <sys/sysinfo.h>    // deprecated ...
 #include <gnu/libc-version.h>
 #endif
 #include <sys/utsname.h>
 
 typedef struct {
     struct utsname unames;
-#if defined(__Linux__) || defined(__NetBSD__)
+#if defined(__linux__) || defined(__NetBSD__)
     int nb_procs;
     int nb_procs_conf;
     char str_processors[64];
 #endif
-#if defined(__Linux__)
+#if defined(__linux__)
     char str_libc_version[64];
 #endif
 } static_data;
