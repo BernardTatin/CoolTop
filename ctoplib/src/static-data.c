@@ -15,6 +15,14 @@ static_data *get_static_data(void) {
     if (!is_loaded) {
         is_loaded = true;
         memset(&data, 0, sizeof(static_data));
+#if defined(__linux__)
+        struct sysinfo system_infos;
+        if (sysinfo(&system_infos) < 0) {
+            memset(&system_infos, 0, sizeof(struct sysinfo));
+        }
+        data.total_ram = system_infos.totalram;
+        data.total_swap = system_infos.totalswap;
+#endif
         if (uname(&data.unames)) {
             memset(&data.unames, 0, sizeof(struct utsname));
             strcpy(data.unames.sysname, "ERROR!");

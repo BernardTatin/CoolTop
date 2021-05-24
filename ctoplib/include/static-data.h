@@ -17,6 +17,10 @@
 #endif
 #include <sys/utsname.h>
 
+#define KILOB   1024
+#define MEGAB   (1024 * KILOB)
+#define GIGAB   (1024 * MEGAB)
+
 typedef struct {
     struct utsname unames;
 #if defined(__linux__) || defined(__NetBSD__)
@@ -27,6 +31,8 @@ typedef struct {
 #if defined(__linux__)
     char str_libc_version[64];
 #endif
+    unsigned long total_ram;
+    unsigned long total_swap;
 } static_data;
 
 static_data *get_static_data(void);
