@@ -15,18 +15,30 @@
 #include <sys/sysinfo.h>    // deprecated ...
 #include <gnu/libc-version.h>
 #endif
+#if defined(__linux__)
+#include "linux-tools.h"
+#endif
+#if defined(__NetBSD__)
+#include "netbsd-tools.h"
+#endif
+
 #include <sys/utsname.h>
 
 #define KILOB   1024
 #define MEGAB   (1024 * KILOB)
 #define GIGAB   (1024 * MEGAB)
 
+#if defined(__linux__) || defined(__NetBSD__)
+#define _WITH_NBPROCS
+#endif
+
+#define _WITH_NBPROCS
+
 typedef struct {
     struct utsname unames;
 #if defined(__linux__) || defined(__NetBSD__)
     int nb_procs;
     int nb_procs_conf;
-    char str_processors[64];
 #endif
 #if defined(__linux__)
     char str_libc_version[64];
