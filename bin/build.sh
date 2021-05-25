@@ -33,7 +33,7 @@ case $(uname) in
     NetBSD)
         export LDFLAGS=""
         export CFLAGS=""
-        export MAKE=gmake
+        export MAKE=make
         export CC=clang
         ;;
     Linux)
