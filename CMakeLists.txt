@@ -71,14 +71,14 @@ endif(WITH_NUKLEAR)
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 add_library(ctoplib STATIC
         ctoplib/src/static-data.c ctoplib/include/static-data.h
-	ctoplib/include/netbsd-tools.h
-        )
+        ctoplib/include/linux-tools.h
+)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 IF(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
 add_library(ctoplib STATIC
         ctoplib/src/static-data.c ctoplib/include/static-data.h
-	ctoplib/include/netbsd-tools.h
-        )
+        ctoplib/include/netbsd-tools.h
+)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
 
 include_directories(ctoplib/include)

@@ -28,15 +28,9 @@
 #define MEGAB   (1024 * KILOB)
 #define GIGAB   (1024 * MEGAB)
 
-#if defined(__linux__) || defined(__NetBSD__)
-#define _WITH_NBPROCS
-#endif
-
-#define _WITH_NBPROCS
-
 typedef struct {
     struct utsname unames;
-#if defined(__linux__) || defined(__NetBSD__)
+#if defined(_WITH_NBPROCS)
     int nb_procs;
     int nb_procs_conf;
 #endif

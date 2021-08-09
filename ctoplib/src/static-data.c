@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 #include <sys/param.h>
-#include <sys/sysctl.h>
 
 #include "static-data.h"
 
@@ -36,7 +35,7 @@ static_data *get_static_data(void) {
 //             {
 //                int mib[2];
 //                size_t len;
-// 
+//
 //                mib[0] = CTL_HW;
 //                mib[1] = HW_NCPU;
 //                len = sizeof(data.nb_procs);
