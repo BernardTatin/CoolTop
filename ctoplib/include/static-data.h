@@ -30,7 +30,7 @@
 
 typedef struct {
     struct utsname unames;
-#if defined(_WITH_NBPROCS)
+#if defined(_WITH_NBPROCESSORS)
     int nb_procs;
     int nb_procs_conf;
 #endif

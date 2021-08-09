@@ -7,7 +7,7 @@
 
 #include <sys/sysctl.h>
 
-#define _WITH_NBPROCS
+#define _WITH_NBPROCESSORS
 
 static inline int get_sysctl_int(int mib0, int mib1, int *value) {
        int mib[2];
@@ -19,5 +19,3 @@ static inline int get_sysctl_int(int mib0, int mib1, int *value) {
        return sysctl(mib, 2, value, &len, NULL, 0);
 }
 #endif // COOLTOP_NETBSD_TOOLS_H
-
-

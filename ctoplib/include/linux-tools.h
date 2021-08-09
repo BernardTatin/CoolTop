@@ -5,6 +5,6 @@
 #if !defined(COOLTOP_LINUX_TOOLS_H)
 #define COOLTOP_LINUX_TOOLS_H
 
-#define _WITH_NBPROCS
+#define _WITH_NBPROCESSORS
 
 #endif // COOLTOP_LINUX_TOOLS_H

@@ -9,7 +9,7 @@ int main(int argn, char *argv[]) {
     static_data *sdata = get_static_data();
     printf("System: %s\n",
            sdata->unames.sysname);
-#if defined(_WITH_NBPROCS)
+#if defined(_WITH_NBPROCESSORS)
     printf("Processors: %d/%d\n",
            sdata->nb_procs, sdata->nb_procs_conf);
 #endif
