@@ -22,7 +22,12 @@ static_data *get_static_data(void) {
         data.total_ram = system_infos.totalram;
         data.total_swap = system_infos.totalswap;
 #elif defined(__NetBSD__)
-        get_sysctl_int(CTL_HW, HW_PHYSMEM, &data.total_ram);
+		{
+			int total_ram;
+
+			get_sysctl_int(CTL_HW, HW_PHYSMEM, &total_ram);
+			data.total_ram = total_ram;
+		}
 #endif
         if (uname(&data.unames)) {
             memset(&data.unames, 0, sizeof(struct utsname));
